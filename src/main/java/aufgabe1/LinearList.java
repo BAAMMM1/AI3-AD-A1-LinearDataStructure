@@ -24,12 +24,50 @@ public interface LinearList<T> {
      */
     LinearList<T> insert(int position, T element) throws IllegalArgumentException;
 
+    /**
+     * Operation delete:    LIST x POS -> LIST
+     *
+     * @param position
+     * @return
+     * @throws IllegalArgumentException
+     */
     LinearList<T> delete(int position) throws IllegalArgumentException;
+
+    /**
+     * Operation retrieve:  LIST x POS -> ELEM
+     *
+     * @param position
+     * @return
+     * @throws IllegalArgumentException
+     */
     T retrieve(int position) throws IllegalArgumentException;
+
+    /**
+     * Operation deletAll:  LIST -> LIST
+     *
+     * @return
+     */
     LinearList<T> deleteAll();
+
+    /**
+     * Operation concat:    LIST x LIST -> LIST
+     *
+     * @param otherList
+     * @return
+     * @throws IllegalArgumentException
+     */
     LinearList<T> concat(LinearList<T> otherList) throws IllegalArgumentException;
 
+
     // TODO - Welche Parameter benötigt diese Methode?
-    LinearList<T> getSublist(int rangeStart, int rangeEnd) throws IllegalArgumentException;
+    /**
+     * Operation sublist:   LIST x POS x POS -> LIST
+     *
+     * @param rangeStart
+     * @param rangeEnd
+     * @return
+     * @throws IllegalArgumentException
+     */
+    LinearList<T> sublist(int rangeStart, int rangeEnd) throws IllegalArgumentException;
 
 }
