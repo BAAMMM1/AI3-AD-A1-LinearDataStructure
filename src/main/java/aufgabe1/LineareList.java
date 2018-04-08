@@ -5,4 +5,6 @@ package aufgabe1;
  */
 public interface LineareList {
 
+    int numbersOfElements();
+
 }
