@@ -62,8 +62,9 @@ public class SequenzielleListe<T extends Comparable<T>> {
         return 0;
     }
 
+
     /**
-     * Operation retrieve:  LIST x POS -> ELEM
+     *
      * @param position
      * @return
      */
