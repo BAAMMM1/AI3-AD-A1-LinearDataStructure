@@ -1,6 +1,5 @@
 package task2;
 
-import abstractDatatypes.LineareListen.DoppeltVerketteListe;
 import task1.ILinearList;
 
 /**
