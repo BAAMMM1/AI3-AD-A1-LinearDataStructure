@@ -21,10 +21,11 @@ public class ArrayBasedList<T> implements ILinearList<T> {
         this.elements = (T[])new Object[maxSize];
     }
 
-    private void changeSize(int factor){
-        this.maxSize = this.size * factor;
+    private void changeSize(double factor){
+        this.maxSize = (int)(this.maxSize * factor);
         T[] temp = (T[])new Object[maxSize];
-        System.arraycopy(this.elements, 0, temp, 0, this.elements.length);
+        System.out.println(this.size);
+        System.arraycopy(this.elements, 0, temp, 0, this.size);
         this.elements = temp; // TODO - Mit rein ins System.arraycopy)
 
     }
@@ -90,7 +91,29 @@ public class ArrayBasedList<T> implements ILinearList<T> {
 
     @Override
     public ILinearList<T> delete(int position) throws IllegalArgumentException {
-        return null;
+
+        // 1. precondition check
+        if(size == 0 && position == 0) throw new IllegalArgumentException();
+        this.prePosition(position);
+
+        // 2. Listen size reduzieren
+        this.size--;
+
+        // 3. Element löschen aus dem Array
+        for(int index = position; index <= this.size; index++){
+
+            this.elements[index] = this.elements[index+1];
+
+        }
+
+        System.out.println(this.size);
+        System.out.println((int)(maxSize*0.25));
+        if(this.size == (int)(maxSize*0.25) ){
+            this.changeSize(0.5);
+        }
+
+
+        return this;
     }
 
     @Override
