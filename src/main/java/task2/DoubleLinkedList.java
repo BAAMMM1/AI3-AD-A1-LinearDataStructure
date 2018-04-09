@@ -2,6 +2,8 @@ package task2;
 
 import task1.ILinearList;
 
+import java.util.LinkedList;
+
 /**
  * @author Chris on 09.04.2018
  */

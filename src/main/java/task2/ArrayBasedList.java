@@ -16,7 +16,7 @@ public class ArrayBasedList<T> implements ILinearList<T> {
     private int maxSize;
 
     public ArrayBasedList() {
-        this.maxSize = 12;
+        this.maxSize = 5;
         this.size = 0;
         this.elements = (T[])new Object[maxSize];
     }
@@ -60,6 +60,7 @@ public class ArrayBasedList<T> implements ILinearList<T> {
         return size;
     }
 
+
     @Override
     public ILinearList<T> insert(int position, T element) throws IllegalArgumentException {
 
@@ -69,13 +70,10 @@ public class ArrayBasedList<T> implements ILinearList<T> {
 
         // 2. Parameter Valid
         // Alle bis position nach rechts verschieben
-        for(int index = size-1; index == position; index--){
-            System.out.println("index vor Veränderung: " + index);
-            System.out.println("this.element[+1] = " + this.elements[index+1]);
-            System.out.println("this element = "+ this.elements[index]);
-            System.out.println("---------------------------------------");
+        for(int index = size-1; index >= position; index--){
+
             this.elements[index+1] = this.elements[index];
-            System.out.println("index: " + index);
+
         }
         // 3. Element einfügen
         this.elements[position] = element;
