@@ -5,6 +5,15 @@ package aufgabe1;
  */
 public interface LinearList<T> {
 
+    /**
+     *  Operation insert:
+     *  pre:
+     *  post:
+     *
+     * Auszählen der Elemente
+     *
+
+     */
     int numbersOfElements();
 
 
