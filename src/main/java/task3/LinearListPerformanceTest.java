@@ -11,6 +11,8 @@ import java.util.Random;
  */
 public class LinearListPerformanceTest {
 
+    private static final int RUNS = 10;
+
     private static final int ARRAY_ELEMENTS_INSERT = 20000;
     private static final int ARRAY_ELEMENTS_DELETE = 20000;
     private static final int ELEMENT_DELETE_SIZE = 1000;
@@ -20,25 +22,39 @@ public class LinearListPerformanceTest {
 
     public void insertTestSeries(ILinearList<Integer> list){
 
-        System.out.println("*------------------------------------------------*");
+        System.out.println("*----------------------------------------------------------*");
         System.out.println("insert series: " + list.getClass().getSimpleName());
-        System.out.println("Start \t time: " + this.insertTest(this.startPositions(ARRAY_ELEMENTS_INSERT), list));
-        System.out.println("Random \t time: " + this.insertTest(this.randomPositions(ARRAY_ELEMENTS_INSERT, false), list));
-        System.out.println("End \t time: " + this.insertTest(this.endPositions(ARRAY_ELEMENTS_INSERT, false), list));
+
+        System.out.print("Start \t time: \t");
+        this.insertTest(this.startPositions(ARRAY_ELEMENTS_INSERT), list);
+
+        System.out.print("Random \t time: \t");
+        this.insertTest(this.randomPositions(ARRAY_ELEMENTS_INSERT, false), list);
+
+        System.out.print("End \t time: \t");
+        this.insertTest(this.endPositions(ARRAY_ELEMENTS_INSERT, false), list);
 
     }
 
     public void deleteTestSeries(ILinearList<Integer> list){
 
-        System.out.println("*------------------------------------------------*");
+        System.out.println("*----------------------------------------------------------*");
         System.out.println("delete series: " + list.getClass().getSimpleName());
-        System.out.println("Start \t time: " + this.deleteTest(this.startPositions(ARRAY_ELEMENTS_DELETE), list));
-        System.out.println("Random \t time: " + this.deleteTest(this.randomPositions(ARRAY_ELEMENTS_DELETE, true), list));
-        System.out.println("End \t time: " + this.deleteTest(this.endPositions(ARRAY_ELEMENTS_DELETE, true), list));
+
+        System.out.print("Start \t time: ");
+        this.deleteTest(this.startPositions(ARRAY_ELEMENTS_DELETE), list);
+
+        System.out.print("Random \t time: ");
+        this.deleteTest(this.randomPositions(ARRAY_ELEMENTS_DELETE, true), list);
+
+        System.out.print("End \t time: ");
+        this.deleteTest(this.endPositions(ARRAY_ELEMENTS_DELETE, true), list);
 
     }
 
-    private long insertTest(int[] positions, ILinearList<Integer> list){
+    private void insertTest(int[] positions, ILinearList<Integer> list){
+
+        for(int index = 0; index < RUNS; index++){
 
         list.clean();
 
@@ -50,11 +66,17 @@ public class LinearListPerformanceTest {
 
         long end = System.currentTimeMillis();
 
-        return (end - start);
+        System.out.print((end - start) + "\t");
+
+        }
+
+        System.out.println();
 
     }
 
-    private long deleteTest(int [] positions, ILinearList<Integer> list){
+    private void deleteTest(int [] positions, ILinearList<Integer> list){
+
+        for(int index = 0; index < RUNS; index++){
 
         list.clean();
 
@@ -71,7 +93,12 @@ public class LinearListPerformanceTest {
 
         long end = System.currentTimeMillis();
 
-        return (end - start);
+        System.out.print((end - start) + "\t");
+
+
+        }
+
+        System.out.println();
 
     }
 
@@ -134,9 +161,9 @@ public class LinearListPerformanceTest {
         LinearListPerformanceTest performenceTest = new LinearListPerformanceTest();
 
         performenceTest.insertTestSeries(new ArrayBasedList<Integer>());
-        performenceTest.deleteTestSeries(new ArrayBasedList<Integer>());
-
         performenceTest.insertTestSeries(new DoubleLinkedList<Integer>());
+
+        performenceTest.deleteTestSeries(new ArrayBasedList<Integer>());
         performenceTest.deleteTestSeries(new DoubleLinkedList<Integer>());
 
 
