@@ -69,4 +69,47 @@ public class ArrayBasedListTest {
 
     }
 
+    @Test
+    public void concatTest(){
+
+        ArrayBasedList<Integer> list1 = new ArrayBasedList<Integer>();
+
+        ArrayBasedList<Integer> list2 = new ArrayBasedList<Integer>();
+
+        for(int index = 0 ; index <= 5; index++){
+            list1.insert(index, new Integer(index));
+            list2.insert(index, new Integer(10+ index));
+        }
+
+        System.out.println(list1.toString());
+        System.out.println(list2.toString());
+
+        list1.concat(list2);
+
+        System.out.println(list1.toString());
+
+
+
+
+    }
+
+    @Test
+    public void extractTest(){
+
+        ArrayBasedList<Integer> list1 = new ArrayBasedList<Integer>();
+
+        for(int index = 0 ; index <= 10; index++){
+            list1.insert(index, new Integer(index));
+        }
+
+        System.out.println(list1.extract(4,8));
+
+        System.out.println(list1.extract(0,9));
+
+        System.out.println(list1.extract(0,0));
+
+        System.out.println(list1.extract(10,10));
+
+    }
+
 }

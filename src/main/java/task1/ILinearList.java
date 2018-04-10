@@ -29,7 +29,7 @@ public interface ILinearList<T> {
      *                      Sei ai das Element an Position pi. Dann bewirkt
      *                      L.insert(position-i,x) = (a0,....,ai-1,x,ai,ai+1,...an)
      *
-     * @param  0 <= position <= size
+     * @param position 0 <= position <= size
      * @param element darf nicht null sein
      * @throws IllegalArgumentException wenn nicht 0 <= position <= size
      */
@@ -44,7 +44,7 @@ public interface ILinearList<T> {
      *                      Sei ai das Element an Position pi. Dann bewirkt
      *                      L.delete(position-i) = (a0,....,ai-1,ai+1,...an)
      *
-     * @param 0 <= position < size
+     * @param position 0 <= position < size
      * @throws IllegalArgumentException Position kleiner 0 oder >= Listsize
      */
     void delete(int position) throws IllegalArgumentException;
@@ -57,7 +57,7 @@ public interface ILinearList<T> {
      * post:                Sei L = (a0,...,an) eine lineare Liste. Dann bewirkt
      *                      L.retrieve(position-i) = ai
      *
-     * @param 0 <= position < size
+     * @param position 0 <= position < size
      * @return Das Element an der Position aus der Liste
      * @throws IllegalArgumentException Position kleiner 0 oder >= Listsize
      */
@@ -85,7 +85,7 @@ public interface ILinearList<T> {
      *                      falls L1={} dann bewirkt L1.concat(L2) = L2
      *
      * @param toAddList Liste mit n Elementen oder leere Liste
-     * @throws IllegalArgumentException falls otherList null ist
+     * @throws IllegalArgumentException falls otherList null
      */
     void concat(ILinearList<T> toAddList) throws IllegalArgumentException;
 
@@ -100,7 +100,7 @@ public interface ILinearList<T> {
      *                      Sei ai das Element an Position pi und ay das Element an der Postition py. Dann bewirkt
      *                      L.extract(position-i,position-y) = (ai,....,ay)
      *
-     * @param fromPosition 0 < fromPosition < size
+     * @param fromPosition 0 <= fromPosition < size
      * @param toPosition fromPosition <= toPosition < size <p>
      * 0 <= fromPosition <= toPosition < size
      * @return eine Subliste aus 2er Positionen einer Liste
