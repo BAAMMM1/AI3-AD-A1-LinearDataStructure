@@ -55,17 +55,12 @@ public class ArrayBasedListTest {
         list.delete(2);
 
         System.out.println(list.toString());
+        for(int index = 0 ; index <= 4; index++){
+            list.delete(0);
+            System.out.println(list.toString());
+        }
 
-        list.delete(0);
-        System.out.println(list.toString());
-        list.delete(0);
-        System.out.println(list.toString());
-        list.delete(0);
-        System.out.println(list.toString());
-        list.delete(0);
-        System.out.println(list.toString());
-        list.delete(0);
-        System.out.println(list.toString());
+
 
         list.insert(0, new Integer(1));
         System.out.println(list.toString());

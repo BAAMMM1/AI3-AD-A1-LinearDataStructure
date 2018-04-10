@@ -15,45 +15,13 @@ public class ArrayBasedList<T> implements ILinearList<T> {
     private int size;
     private int maxSize;
 
+    private static final int MAX_SIZE_INIT = 5;
+
     public ArrayBasedList() {
-        this.maxSize = 5;
+        this.maxSize = MAX_SIZE_INIT;
         this.size = 0;
         this.elements = (T[])new Object[maxSize];
     }
-
-    private void changeSize(double factor){
-        this.maxSize = (int)(this.maxSize * factor);
-        T[] temp = (T[])new Object[maxSize];
-        System.out.println(this.size);
-        System.arraycopy(this.elements, 0, temp, 0, this.size);
-        this.elements = temp; // TODO - Mit rein ins System.arraycopy)
-
-    }
-
-    private void prePosition(int position) throws IllegalArgumentException{
-
-        if( position > size || position < 0 ){
-            throw new IllegalArgumentException();
-        }
-
-    }
-
-    /*
-    private ArrayBasedList(int arraysize){
-
-        if (arraysize>maxSize){
-            new ArrayBasedList(arraysize + maxSize);
-        };
-        ArrayBasedList<T> returni = null;
-        for (int i = 0; i< arraysize; i++){
-                returni.insert(i, null);
-        }
-
-
-    };
-    */
-
-
 
 
     @Override
@@ -66,13 +34,13 @@ public class ArrayBasedList<T> implements ILinearList<T> {
     public void insert(int position, T element) throws IllegalArgumentException {
 
         // 1. precondition check
-        this.prePosition(position);
+        if(!(0 < position || position <= size))  throw new IllegalArgumentException();
+
         if (element == null) throw new IllegalArgumentException();
 
         // 2. Parameter Valid
         // Alle bis position nach rechts verschieben
         for(int index = size-1; index >= position; index--){
-
             this.elements[index+1] = this.elements[index];
 
         }
@@ -92,22 +60,18 @@ public class ArrayBasedList<T> implements ILinearList<T> {
     @Override
     public void delete(int position) throws IllegalArgumentException {
 
-        // 1. precondition check
-        if(size == 0 && position == 0) throw new IllegalArgumentException();
-        this.prePosition(position);
+        // 1. precondition check 0 = 0 ; 5 = 5 da P0....
+        if(!(0 < position || position < size)) throw new IllegalArgumentException();
 
-        // 2. Listen size reduzieren
-        this.size--;
-
-        // 3. Element löschen aus dem Array
-        for(int index = position; index <= this.size; index++){
-
+        // 2. Element löschen aus dem Array
+        for(int index = position; index < this.size; index++){
             this.elements[index] = this.elements[index+1];
 
         }
+        // 3. Listen size reduzieren
+        this.size--;
 
-        System.out.println(this.size);
-        System.out.println((int)(maxSize*0.25));
+        // 4. Array Größe anpassen
         if(this.size == (int)(maxSize*0.25) ){
             this.changeSize(0.5);
         }
@@ -117,16 +81,28 @@ public class ArrayBasedList<T> implements ILinearList<T> {
 
     @Override
     public T retrieve(int position) throws IllegalArgumentException {
-        return null;
+
+        if(! (0 <= position || position < this.size)) throw new IllegalArgumentException();
+
+        return this.elements[position];
+
     }
 
     @Override
     public void clean() {
 
+        this.maxSize = MAX_SIZE_INIT;
+        this.elements = (T[])new Object[maxSize];
+
     }
 
     @Override
     public void concat(ILinearList<T> toAddList) throws IllegalArgumentException {
+
+        if(toAddList == null) throw new IllegalArgumentException();
+
+
+
 
     }
 
@@ -135,12 +111,6 @@ public class ArrayBasedList<T> implements ILinearList<T> {
         return null;
     }
 
-    private ArrayBasedList<T> minimize(ArrayBasedList<T> toShortenList){
-        if (toShortenList.size()< maxSize/4){
-            toShortenList.extract(0, maxSize/2);
-        };
-        return toShortenList;
-    }
 
     @Override
     public String toString() {
@@ -150,4 +120,17 @@ public class ArrayBasedList<T> implements ILinearList<T> {
                 ", maxSize=" + maxSize +
                 '}';
     }
+
+
+
+    private void changeSize(double factor){
+        this.maxSize = (int)(this.maxSize * factor);
+        T[] temp = (T[])new Object[maxSize];
+
+        System.arraycopy(this.elements, 0, temp, 0, this.size);
+        this.elements = temp; // TODO - Mit rein ins System.arraycopy)
+
+    }
+
+
 }
