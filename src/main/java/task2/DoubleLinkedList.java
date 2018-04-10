@@ -83,14 +83,50 @@ public class DoubleLinkedList<T> implements ILinearList<T> {
             this.tail.setPrev(this.head);
             this.size++;
 
-        } else {
+        } else if(position == this.size) {
 
-            Node<T> postionNode = this.head;
+            System.out.println(3);
+
+            Node<T> node = new Node<T>(element);
+
+            this.tail.setNext(node);
+            node.setPrev(this.tail);
+            this.tail = node;
+
+            this.size++;
+
+
+        } else if(position == 0){ // TODO tut der hier not
+            System.out.println(4);
+
+            Node<T> node = new Node<T>(element);
+
+            node.setNext(this.head);
+            this.head.setPrev(node);
+            this.head = node;
+
+        } else { // TODO - von link und von rechts
+            System.out.println(5);
+
+            Node<T> node = new Node<T>(element);
+
+            Node<T> positionNode = this.head;
             int index = 0;
-            while(index <= position){
-                postionNode = postionNode.next;
-                System.out.println(postionNode.toString());
-            }
+            do {
+
+                positionNode = positionNode.next;
+                index++;
+
+            } while(index < position);
+
+            node.setPrev(positionNode.prev);
+            node.setNext(positionNode);
+
+            positionNode.getPrev().setNext(node);
+            positionNode.setPrev(node);
+
+            this.size++;
+
         }
 
 
@@ -128,6 +164,7 @@ public class DoubleLinkedList<T> implements ILinearList<T> {
      */
     @Override
     public T retrieve(int position) throws IllegalArgumentException {
+
         return null;
     }
 
@@ -141,6 +178,10 @@ public class DoubleLinkedList<T> implements ILinearList<T> {
      */
     @Override
     public void clean() {
+
+        this.head = null;
+        this.tail = null;
+        this.size = 0;
 
     }
 
@@ -186,11 +227,16 @@ public class DoubleLinkedList<T> implements ILinearList<T> {
 
     @Override
     public String toString() {
-        return "DoubleLinkedList{" +
-                "head=" + head +
-                ", tail=" + tail +
-                ", size=" + size +
-                '}';
+
+        Node<T> node = head;
+        String nodes = "";
+
+        while(node != null){
+            nodes = nodes + node.toString() + ", ";
+            node = node.next;
+        }
+
+        return "DoubleLinkedList{" + nodes + '}';
     }
 
     /**
