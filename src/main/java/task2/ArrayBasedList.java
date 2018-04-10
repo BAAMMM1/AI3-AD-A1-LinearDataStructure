@@ -57,6 +57,8 @@ public class ArrayBasedList<T> implements ILinearList<T> {
         this.elements = (T[]) new Object[maxSize];
     }
 
+    // TODO - List Konstruktor
+
     /**
      * Zählt die Elemente einer Liste<p>
      *
@@ -173,6 +175,7 @@ public class ArrayBasedList<T> implements ILinearList<T> {
 
         this.maxSize = MAX_SIZE_INIT;
         this.elements = (T[]) new Object[maxSize];
+        this.size = 0;
 
     }
 

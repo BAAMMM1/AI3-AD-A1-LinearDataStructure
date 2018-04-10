@@ -85,7 +85,7 @@ public class DoubleLinkedList<T> implements ILinearList<T> {
 
         } else if(position == this.size) {
 
-            System.out.println(3);
+            //System.out.println(3);
 
             Node<T> node = new Node<T>(element);
 
@@ -97,16 +97,17 @@ public class DoubleLinkedList<T> implements ILinearList<T> {
 
 
         } else if(position == 0){ // TODO tut der hier not
-            System.out.println(4);
+            //System.out.println(4);
 
             Node<T> node = new Node<T>(element);
 
             node.setNext(this.head);
             this.head.setPrev(node);
             this.head = node;
+            this.size++;
 
         } else { // TODO - von link und von rechts
-            System.out.println(5);
+            //System.out.println(5);
 
             Node<T> node = new Node<T>(element);
 
