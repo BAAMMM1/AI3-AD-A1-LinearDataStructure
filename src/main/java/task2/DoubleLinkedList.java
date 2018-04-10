@@ -25,13 +25,13 @@ public class DoubleLinkedList<T> implements ILinearList<T> {
     }
 
     @Override
-    public ILinearList<T> insert(int position, T element) throws IllegalArgumentException {
-        return null;
+    public void insert(int position, T element) throws IllegalArgumentException {
+
     }
 
     @Override
-    public ILinearList<T> delete(int position) throws IllegalArgumentException {
-        return null;
+    public void delete(int position) throws IllegalArgumentException {
+
     }
 
     @Override
@@ -40,13 +40,13 @@ public class DoubleLinkedList<T> implements ILinearList<T> {
     }
 
     @Override
-    public ILinearList<T> clean() {
-        return null;
+    public void clean() {
+
     }
 
     @Override
-    public ILinearList<T> concat(ILinearList<T> toAddList) throws IllegalArgumentException {
-        return null;
+    public void concat(ILinearList<T> toAddList) throws IllegalArgumentException {
+
     }
 
     @Override
