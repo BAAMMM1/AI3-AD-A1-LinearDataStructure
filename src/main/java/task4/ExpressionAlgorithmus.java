@@ -10,5 +10,4 @@ public class ExpressionAlgorithmus {
     private Stack<String> stack;
 
 
-
 }
