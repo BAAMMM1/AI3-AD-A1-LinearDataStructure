@@ -7,4 +7,60 @@ package task5;
  */
 public class MinMaxAlgortihmus {
 
+
+    public static int max(int[] array){
+
+        int result = array[0];
+        int counter = 0;
+        for(int i = 1; i < array.length; i++){
+
+            if(result < array[i]){
+                result = array[i];
+            }
+
+            counter++;
+
+        }
+
+        System.out.println("Vergleiche: " + counter);
+
+        return result;
+
+    }
+
+    public static int min(int[] array){
+
+        int result = array[0];
+        int counter = 0;
+        for(int i = 1; i < array.length; i++){
+
+            if(result > array[i]){
+                result = array[i];
+            }
+
+            counter++;
+
+        }
+
+        System.out.println("Vergleiche: " + counter);
+
+        return result;
+
+    }
+
+    public static void main(String[] args) {
+
+        MinMaxAlgortihmus minMaxAlgortihmus = new MinMaxAlgortihmus();
+
+        int[] array = new int[] {1,5,9,11,34,256,2,98,4,5};
+
+        System.out.println(minMaxAlgortihmus.max(array));
+
+        System.out.println(minMaxAlgortihmus.min(array));
+
+
+
+
+    }
+
 }
