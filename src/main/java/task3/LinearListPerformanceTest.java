@@ -166,9 +166,6 @@ public class LinearListPerformanceTest {
         performenceTest.deleteTestSeries(new ArrayBasedList<Integer>());
         performenceTest.deleteTestSeries(new DoubleLinkedList<Integer>());
 
-
-
-
     }
 
 
