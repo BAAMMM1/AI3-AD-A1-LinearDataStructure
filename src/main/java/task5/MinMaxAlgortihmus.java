@@ -8,7 +8,7 @@ package task5;
 public class MinMaxAlgortihmus {
 
 
-    public static int max(int[] array){
+    public int max(int[] array){
 
         int result = array[0];
         int counter = 0;
@@ -28,7 +28,7 @@ public class MinMaxAlgortihmus {
 
     }
 
-    public static int min(int[] array){
+    public int min(int[] array){
 
         int result = array[0];
         int counter = 0;
