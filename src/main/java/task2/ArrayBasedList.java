@@ -10,7 +10,7 @@ import java.util.Arrays;
  * @author Chris on 09.04.2018
  * @version 1.0
  */
-public class ArrayBasedList<T> implements ILinearList<T> {
+public class ArrayBasedList<T> extends AbstractLinearList<T> {
 
     /**
      * Bestimmt um welchen Faktor das Array vergrößert wird.
@@ -38,11 +38,6 @@ public class ArrayBasedList<T> implements ILinearList<T> {
     private T elements[];
 
     /**
-     * Anzahl an Elementen des Arrays.
-     */
-    private int size;
-
-    /**
      * Kapazität des Arrays.
      */
     private int maxSize;
@@ -58,20 +53,6 @@ public class ArrayBasedList<T> implements ILinearList<T> {
     }
 
     // TODO - List Konstruktor
-
-    /**
-     * Zählt die Elemente einer Liste<p>
-     *
-     * Operation size:  LIST -> INT
-     * pre:
-     * post:            Liste ist unverändert
-     *
-     * @return bei leerer Liste wird 0 zurükgegeben, sonst die Anzahl der Elemente in der Liste
-     */
-    @Override
-    public int size() {
-        return size;
-    }
 
     /**
      * Fügt Element in einer bestimmten Position der Liste hinzu.<p>
@@ -179,61 +160,7 @@ public class ArrayBasedList<T> implements ILinearList<T> {
 
     }
 
-    /**
-     * Fügt zwei Listen zusammen.<p>
-     * <p>
-     * Operation concat:    LIST x LIST -> LIST
-     * pre:
-     * post:                Sei L1 = (a0,...,an) eine lineare Liste.
-     * Sei L2 = (b0,...,bn) eine lineare Liste.
-     * Dann bewirkt L1.concat(L2) = (a0,...,an,b0,...,bn)
-     * falls L2={} dann bewirkt L1.concat(L2) = L1
-     * falls L1={} dann bewirkt L1.concat(L2) = L2
-     *
-     * @param toAddList Liste mit n Elementen oder leere Liste
-     * @throws IllegalArgumentException falls otherList null
-     */
-    @Override
-    public void concat(ILinearList<T> toAddList) throws IllegalArgumentException {
 
-        if (toAddList == null) throw new IllegalArgumentException();
-
-        for (int i = 0; i < toAddList.size(); i++) {
-            this.insert(this.size, toAddList.retrieve(i));
-        }
-
-    }
-
-    /**
-     * Extrahiert eine Subliste innerhalb 2er Positionen einer Liste
-     * <p>
-     * Operation extract:   LIST x INT x INT -> LIST
-     * Pre:                 Sei fromPosition element {Position-0, ...,Position-n} erlaubte position
-     * Sei toPosition element {Position-0, ...,Position-n} erlaubte position,
-     * fromPosition <= toPosition
-     * Post:                Sei L = (a0,...,an) eine lineare Liste.
-     * Sei ai das Element an Position pi und ay das Element an der Postition py. Dann bewirkt
-     * L.extract(position-i,position-y) = (ai,....,ay)
-     *
-     * @param fromPosition 0 <= fromPosition < size
-     * @param toPosition   fromPosition <= toPosition < size <p>
-     *                     0 <= fromPosition <= toPosition < size
-     * @return eine Subliste aus 2er Positionen einer Liste
-     */
-    @Override
-    public ILinearList<T> extract(int fromPosition, int toPosition) {
-
-        if (!(0 <= fromPosition && fromPosition < size)) throw new IllegalArgumentException();
-        if (!(fromPosition <= toPosition && toPosition < this.size)) throw new IllegalArgumentException();
-
-        ArrayBasedList<T> result = new ArrayBasedList<T>();
-
-        for (int i = fromPosition; i <= toPosition; i++) {
-            result.insert(result.size(), this.retrieve(i));
-        }
-
-        return result;
-    }
 
     /**
      * Passt die Länge des Arrays um den übergebenen Faktor an.
