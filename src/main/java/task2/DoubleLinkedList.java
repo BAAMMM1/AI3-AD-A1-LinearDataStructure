@@ -203,6 +203,12 @@ public class DoubleLinkedList<T> implements ILinearList<T> {
     @Override
     public void concat(ILinearList<T> toAddList) throws IllegalArgumentException {
 
+        if (toAddList == null) throw new IllegalArgumentException();
+
+        for (int i = 0; i < toAddList.size(); i++) {
+            this.insert(this.size, toAddList.retrieve(i));
+        }
+
     }
 
     /**
@@ -223,7 +229,18 @@ public class DoubleLinkedList<T> implements ILinearList<T> {
      */
     @Override
     public ILinearList<T> extract(int fromPosition, int toPosition) {
-        return null;
+
+        if (!(0 <= fromPosition && fromPosition < size)) throw new IllegalArgumentException();
+        if (!(fromPosition <= toPosition && toPosition < this.size)) throw new IllegalArgumentException();
+
+        DoubleLinkedList<T> result = new DoubleLinkedList<T>();
+
+        for (int i = fromPosition; i <= toPosition; i++) {
+            result.insert(result.size(), this.retrieve(i));
+        }
+
+        return result;
+
     }
 
     @Override

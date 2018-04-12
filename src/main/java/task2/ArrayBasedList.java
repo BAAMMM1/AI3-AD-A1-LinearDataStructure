@@ -201,6 +201,7 @@ public class ArrayBasedList<T> implements ILinearList<T> {
         for (int i = 0; i < toAddList.size(); i++) {
             this.insert(this.size, toAddList.retrieve(i));
         }
+
     }
 
     /**
