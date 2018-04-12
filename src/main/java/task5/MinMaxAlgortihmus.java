@@ -61,11 +61,13 @@ public class MinMaxAlgortihmus {
 
     public static void main(String[] args) {
 
-        int[] array = new int[]{0, 5, 9, 11, 34, 256, 2, 98, 4, 5};
-        int[] array2 = new int[]{256, 98, 34, 11, 8 , 4, 2, 1, 0};
+        int[] array = new int[]{0,1,2,3,4,5,6,7,8,9};
+        int[] array2 = new int[]{9,8,7,6,5,4,3,2,1,0};
 
-        int[] array3 = new int[]{0,1,2,3,4,5,6,7,8,9};
-        int[] array4 = new int[]{9,8,7,6,5,4,3,2,1,0};
+        int[] array3 = new int[]{5, 0, 9, 11, 34, 256, 2, 98, 4, 5};
+        int[] array4 = new int[]{98, 256, 34, 11, 8 , 4, 2, 1, 0};
+
+
 
         MinMaxAlgortihmus minMaxAlgortihmus = new MinMaxAlgortihmus(array);
         MinMaxAlgortihmus minMaxAlgortihmus2 = new MinMaxAlgortihmus(array2);
