@@ -59,12 +59,12 @@ public class DoubleLinkedListTest {
         list.insert(0, new Integer(3));
         System.out.println(list.toString());
 
-        list.insert(2, new Integer(4));
+        list.insert(3, new Integer(4));
         System.out.println(list.toString());
 
-        System.out.println("---->: " + list.retrieve(1));
+        //System.out.println("---->: " + list.retrieve(1));
 
-        System.out.println(list.extract(1,2));
+        //System.out.println(list.extract(1,2));
 
 
     }
