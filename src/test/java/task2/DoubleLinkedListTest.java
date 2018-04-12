@@ -89,7 +89,6 @@ public class DoubleLinkedListTest {
         }
 
 
-
         list.insert(0, new Integer(1));
         System.out.println(list.toString());
         list.insert(0, new Integer(2));

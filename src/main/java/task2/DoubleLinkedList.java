@@ -97,28 +97,6 @@ public class DoubleLinkedList<T> extends AbstractLinearList<T> {
 
     }
 
-    private Node<T> iteratedFromHead(int position) {
-
-        Node<T> result = this.head;
-
-        for (int i = 1; i <= position; i++) {
-            result = result.next;
-        }
-
-        return result;
-    }
-
-    private Node<T> iteratedFromTail(int position) {
-
-        Node<T> result = this.tail;
-
-        for (int i = this.size-1; i > position; i--) {
-            result = result.prev;
-        }
-
-        return result;
-    }
-
 
     /**
      * Löscht ein Element aus einer Liste an einer bestimmten Position.<p>
@@ -194,7 +172,12 @@ public class DoubleLinkedList<T> extends AbstractLinearList<T> {
 
         if (!(0 <= position && position < size)) throw new IllegalArgumentException();
 
-        return null;
+        if(position <= (this.size/2)){
+            return this.iteratedFromHead(position).getElement();
+        } else {
+            return this.iteratedFromTail(position).getElement();
+        }
+
     }
 
     /**
@@ -212,6 +195,28 @@ public class DoubleLinkedList<T> extends AbstractLinearList<T> {
         this.tail = null;
         this.size = 0;
 
+    }
+
+    private Node<T> iteratedFromHead(int position) {
+
+        Node<T> result = this.head;
+
+        for (int i = 1; i <= position; i++) {
+            result = result.next;
+        }
+
+        return result;
+    }
+
+    private Node<T> iteratedFromTail(int position) {
+
+        Node<T> result = this.tail;
+
+        for (int i = this.size-1; i > position; i--) {
+            result = result.prev;
+        }
+
+        return result;
     }
 
 
