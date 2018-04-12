@@ -66,6 +66,8 @@ public class DoubleLinkedListTest {
 
         //System.out.println(list.extract(1,2));
 
+        System.out.println(list.retrieve(0));
+
 
     }
 
