@@ -69,4 +69,32 @@ public class DoubleLinkedListTest {
 
     }
 
+    @Test
+    public void deleteTest(){
+
+        DoubleLinkedList<Integer> list = new DoubleLinkedList<Integer>();
+
+        for(int index = 0 ; index <= 5; index++){
+            list.insert(index, new Integer(index));
+        }
+
+        System.out.println(list.toString());
+
+        list.delete(2);
+
+        System.out.println(list.toString());
+        for(int index = 0 ; index <= 4; index++){
+            list.delete(0);
+            System.out.println(list.toString());
+        }
+
+
+
+        list.insert(0, new Integer(1));
+        System.out.println(list.toString());
+        list.insert(0, new Integer(2));
+        System.out.println(list.toString());
+
+    }
+
 }

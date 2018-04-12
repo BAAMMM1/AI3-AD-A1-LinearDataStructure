@@ -79,10 +79,8 @@ public class DoubleLinkedList<T> extends AbstractLinearList<T> {
             // Falls die Position in der ersten helfte liegt iteriere vom Head aus
             // Falls die Position in der zweiten helfte liegt, iteriere vom Tail aus
             if (position <= (this.size / 2)) {
-                System.out.println("from head");
                 nodeOnPosition = this.iteratedFromHead(position);
             } else {
-                System.out.println("from tail");
                 nodeOnPosition = this.iteratedFromTail(position);
             }
 
@@ -138,6 +136,44 @@ public class DoubleLinkedList<T> extends AbstractLinearList<T> {
     public void delete(int position) throws IllegalArgumentException {
 
         if (!(0 <= position && position < size)) throw new IllegalArgumentException();
+
+        if(head.equals(tail)) {
+
+            this.head = null;
+            this.tail = null;
+
+        } else if(position == 0){
+
+            this.head.getNext().setPrev(null);
+            //this.head.setNext(null);
+            this.head = this.head.getNext();
+
+        } else if( position == this.size-1){
+
+            this.tail.getPrev().setNext(null);
+            //this.tail.setPrev(null);
+            this.tail = this.tail.getPrev();
+
+        } else {
+
+            Node<T> nodeOnPosition = null;
+
+            // Falls die Position in der ersten helfte liegt iteriere vom Head aus
+            // Falls die Position in der zweiten helfte liegt, iteriere vom Tail aus
+            if (position <= (this.size / 2)) {
+                nodeOnPosition = this.iteratedFromHead(position);
+            } else {
+                nodeOnPosition = this.iteratedFromTail(position);
+            }
+
+            nodeOnPosition.getNext().setPrev(nodeOnPosition.getPrev());
+            nodeOnPosition.getPrev().setNext(nodeOnPosition.getNext());
+            //nodeOnPosition.setNext(null);
+            //nodeOnPosition.setPrev(null);
+
+        }
+
+        this.size--;
 
     }
 
