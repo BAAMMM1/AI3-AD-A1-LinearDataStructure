@@ -67,15 +67,10 @@ public class MinMaxAlgortihmus {
         int[] array3 = new int[]{5, 0, 9, 11, 34, 256, 2, 98, 4, 5};
         int[] array4 = new int[]{98, 256, 34, 11, 8 , 4, 2, 1, 0};
 
-
-
         MinMaxAlgortihmus minMaxAlgortihmus = new MinMaxAlgortihmus(array);
         MinMaxAlgortihmus minMaxAlgortihmus2 = new MinMaxAlgortihmus(array2);
         MinMaxAlgortihmus minMaxAlgortihmus3 = new MinMaxAlgortihmus(array3);
         MinMaxAlgortihmus minMaxAlgortihmus4 = new MinMaxAlgortihmus(array4);
-
-
-
 
     }
 

@@ -13,60 +13,47 @@ public class LinearListPerformanceTest {
 
     private static final int RUNS = 10;
 
-    private static final int ARRAY_ELEMENTS_INSERT = 20000;
-    private static final int ARRAY_ELEMENTS_DELETE = 20000;
-    private static final int ELEMENT_DELETE_SIZE = 1000;
+    private static final int ARRAY_ELEMENTS_INSERT  = 20000;
+    private static final int ARRAY_ELEMENTS_DELETE  = 20000;
+    private static final int ELEMENT_DELETE_SIZE    = 1000;
 
-    private static final int RANDOM_BOUND = 9999;
+    private static final int RANDOM_BOUND           = 999999999;
+
+    private static final String[] QUALIFIER         = new String[]{"Start", "Random", "End"};
+    private static final int[][] POSITIONS_INSERT   = new int[][]{getStartPositions(), getRandomPositions(false), getEndPositions(false)};
+    private static final int[][] POSITIONS_DELETE   = new int[][]{getStartPositions(), getRandomPositions(true), getEndPositions(true)};
+
+    private long[] resultsInsert;
+    private long[] resultsDelete;
 
 
-    public void insertTestSeries(ILinearList<Integer> list){
+    public void comparison(ILinearList<Integer>... lists) {
 
-        System.out.println("*----------------------------------------------------------*");
-        System.out.println("insert series: " + list.getClass().getSimpleName());
+        this.insertSeries(QUALIFIER, POSITIONS_INSERT, lists);
 
-        System.out.print("Start \t time: \t");
-        this.insertTest(this.startPositions(ARRAY_ELEMENTS_INSERT), list);
-
-        System.out.print("Random \t time: \t");
-        this.insertTest(this.randomPositions(ARRAY_ELEMENTS_INSERT, false), list);
-
-        System.out.print("End \t time: \t");
-        this.insertTest(this.endPositions(ARRAY_ELEMENTS_INSERT, false), list);
-
-    }
-
-    public void deleteTestSeries(ILinearList<Integer> list){
-
-        System.out.println("*----------------------------------------------------------*");
-        System.out.println("delete series: " + list.getClass().getSimpleName());
-
-        System.out.print("Start \t time: ");
-        this.deleteTest(this.startPositions(ARRAY_ELEMENTS_DELETE), list);
-
-        System.out.print("Random \t time: ");
-        this.deleteTest(this.randomPositions(ARRAY_ELEMENTS_DELETE, true), list);
-
-        System.out.print("End \t time: ");
-        this.deleteTest(this.endPositions(ARRAY_ELEMENTS_DELETE, true), list);
+        this.deleteSeries(QUALIFIER, POSITIONS_DELETE, lists);
 
     }
 
-    private void insertTest(int[] positions, ILinearList<Integer> list){
+    private void insertSeries(String[] qualifier, int[][] posInsert, ILinearList<Integer>... lists){
 
-        for(int index = 0; index < RUNS; index++){
+        if(QUALIFIER.length != POSITIONS_INSERT.length) throw new IllegalArgumentException("must be the same size");
 
-        list.clean();
+        resultsInsert = new long[posInsert.length*2];
 
-        long start = System.currentTimeMillis();
+        System.out.println("*-------------------- insert series -----------------------*: ");
 
-        for(int i = 0; i < ARRAY_ELEMENTS_INSERT; i++){
-            list.insert(positions[i], this.getRandomInteger());
-        }
+        for(int i = 0; i < lists.length; i++){
 
-        long end = System.currentTimeMillis();
+            System.out.println(lists[i].getClass().getSimpleName() + ":");
 
-        System.out.print((end - start) + "\t");
+            for(int j = 0; j < posInsert.length; j++){
+                System.out.print(qualifier[j] + ":\t");
+                resultsInsert[j] = this.insertTest(posInsert[j], lists[i]);
+                System.out.println("\t av.: " + resultsInsert[j]);
+            }
+
+            System.out.println("*----------------------------------------------------------*");
 
         }
 
@@ -74,55 +61,134 @@ public class LinearListPerformanceTest {
 
     }
 
-    private void deleteTest(int [] positions, ILinearList<Integer> list){
+    private void deleteSeries(String[] qualifier, int[][] posDelete, ILinearList<Integer>... lists){
 
-        for(int index = 0; index < RUNS; index++){
+        if(QUALIFIER.length != POSITIONS_DELETE.length) throw new IllegalArgumentException("must be the same size");
 
-        list.clean();
+        resultsDelete = new long[posDelete.length*2];
 
-        // 1. Liste befüllen von hinten (Geht am schnellsten bei beiden)
-        for(int i = 0; i < ARRAY_ELEMENTS_DELETE; i++){
-            list.insert(i, this.getRandomInteger());
+        System.out.println("*-------------------- delete series -----------------------*: ");
+
+        for(int i = 0; i < lists.length; i++){
+            System.out.println(lists[i].getClass().getSimpleName() + ":");
+
+
+            for(int j = 0; j < posDelete.length; j++){
+
+                System.out.print(qualifier[j] + ":\t");
+
+                resultsDelete[j] = this.deleteTest(posDelete[j], lists[i]);
+
+                System.out.println("\t av.: " + resultsDelete[j]);
+            }
+
+            System.out.println("*----------------------------------------------------------*");
+
         }
-
-        long start = System.currentTimeMillis();
-
-        for(int i = 0; i < ELEMENT_DELETE_SIZE; i++){
-            list.delete(positions[i]);
-        }
-
-        long end = System.currentTimeMillis();
-
-        System.out.print((end - start) + "\t");
-
-
-        }
-
-        System.out.println();
 
     }
 
 
-    private int[] startPositions(int size){
-        return new int[size];
+
+    private long insertTest(int[] positions, ILinearList<Integer> list) {
+
+        long[] results = new long[RUNS];
+
+        for (int index = 0; index < RUNS; index++) {
+
+            list.clean();
+
+            long start = System.currentTimeMillis();
+
+            for (int i = 0; i < ARRAY_ELEMENTS_INSERT; i++) {
+                list.insert(positions[i], this.getRandomInteger());
+            }
+
+            long end = System.currentTimeMillis();
+
+            System.out.print((end - start) + "\t");
+
+            results[index] = end - start;
+
+        }
+
+        // Durchschnitt der Messungen berechnen
+        long temp = 0;
+
+        for (int i = 0; i < results.length; i++) {
+            temp += results[i];
+
+        }
+
+        long median = temp / RUNS;
+
+        return median;
+
+    }
+
+    private long deleteTest(int[] positions, ILinearList<Integer> list) {
+
+
+        long[] results = new long[RUNS];
+
+        for (int index = 0; index < RUNS; index++) {
+
+            list.clean();
+
+            // 1. Liste befüllen von hinten (Geht am schnellsten bei beiden)
+            for (int i = 0; i < ARRAY_ELEMENTS_DELETE; i++) {
+                list.insert(i, this.getRandomInteger());
+            }
+
+            long start = System.currentTimeMillis();
+
+            for (int i = 0; i < ELEMENT_DELETE_SIZE; i++) {
+                list.delete(positions[i]);
+            }
+
+            long end = System.currentTimeMillis();
+
+            System.out.print((end - start) + "\t");
+
+            results[index] = end - start;
+
+        }
+
+        // Durchschnitt der Messungen berechnen
+        long temp = 0;
+
+        for (int i = 0; i < results.length; i++) {
+            temp += results[i];
+
+        }
+
+        long median = temp / RUNS;
+
+        return median;
+
+    }
+
+
+    private static int[] getStartPositions() {
+        return new int[ARRAY_ELEMENTS_INSERT];
     }
 
     /**
      * falls reverse false random bound aufsteigend
      * falls reverse true random bound absteigend
-     * @param size
+     *
      * @param reverse
      * @return
      */
-    private int[] randomPositions(int size, boolean reverse){
-        int[] result = new int[size];
+    private static int[] getRandomPositions(boolean reverse) {
+        int[] result = new int[ARRAY_ELEMENTS_INSERT];
 
-        for(int i = 0; i < size; i++){
+        for (int i = 0; i < ARRAY_ELEMENTS_INSERT; i++) {
 
-            if(reverse) {
-                result[i] = new Random().nextInt((size)-i);
+            if (reverse) {
+                result[i] = new Random().nextInt((ARRAY_ELEMENTS_INSERT) - i);
             } else {
-                result[i] = new Random().nextInt(i+1);
+                result[i] = new Random().nextInt(i + 1);
             }
         }
         return result;
@@ -131,24 +197,23 @@ public class LinearListPerformanceTest {
     /**
      * reverse false -> 0 1 2 3 4 5
      * reverse true -> 5 4 3 2 1 0
-     * @param size
+     *
      * @param reverse
      * @return
      */
-    private int[] endPositions(int size, boolean reverse){
+    private static int[] getEndPositions(boolean reverse) {
 
-        int[] result = new int[size];
+        int[] result = new int[ARRAY_ELEMENTS_INSERT];
 
-        for(int i = 0; i < size; i++){
-            if(reverse){
-                result[i] = (size-1)-i;
+        for (int i = 0; i < ARRAY_ELEMENTS_INSERT; i++) {
+            if (reverse) {
+                result[i] = (ARRAY_ELEMENTS_INSERT - 1) - i;
             } else {
                 result[i] = i;
             }
         }
         return result;
     }
-
 
 
     private Integer getRandomInteger() {
@@ -158,14 +223,9 @@ public class LinearListPerformanceTest {
 
     public static void main(String[] args) {
 
-        LinearListPerformanceTest performenceTest = new LinearListPerformanceTest();
+        LinearListPerformanceTest pTest = new LinearListPerformanceTest();
 
-        performenceTest.insertTestSeries(new ArrayBasedList<Integer>());
-        performenceTest.insertTestSeries(new DoubleLinkedList<Integer>());
-
-        performenceTest.deleteTestSeries(new ArrayBasedList<Integer>());
-        performenceTest.deleteTestSeries(new DoubleLinkedList<Integer>());
-
+        pTest.comparison(new ArrayBasedList<Integer>(), new DoubleLinkedList<Integer>());
     }
 
 
