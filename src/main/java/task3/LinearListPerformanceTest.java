@@ -32,8 +32,11 @@ public class LinearListPerformanceTest {
         this.insertSeries(QUALIFIER, POSITIONS_INSERT, lists);
 
         this.deleteSeries(QUALIFIER, POSITIONS_DELETE, lists);
+        
+        this.printComparisonResult();
 
     }
+
 
     private void insertSeries(String[] qualifier, int[][] posInsert, ILinearList<Integer>... lists){
 
@@ -87,7 +90,6 @@ public class LinearListPerformanceTest {
         }
 
     }
-
 
 
     private long insertTest(int[] positions, ILinearList<Integer> list) {
@@ -165,6 +167,12 @@ public class LinearListPerformanceTest {
         long median = temp / RUNS;
 
         return median;
+
+    }
+
+    private void printComparisonResult() {
+
+        // TODO - Listen miteinander Vergleichen
 
     }
 

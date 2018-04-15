@@ -56,4 +56,11 @@ public class Stack<T> {
     public void clear() {
         elemente.clear();
     }
+
+    @Override
+    public String toString() {
+        return "Stack{" +
+                "elemente=" + elemente +
+                '}';
+    }
 }
