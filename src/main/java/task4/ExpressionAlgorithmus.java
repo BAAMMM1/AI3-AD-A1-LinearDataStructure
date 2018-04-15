@@ -10,7 +10,7 @@ import java.util.List;
  */
 public class ExpressionAlgorithmus {
 
-    private Stack<String> stack;
+    private Stack<Token> stack;
     
     private static final String SIGN_PLUS = "+";
     private static final String SIGN_MINUS = "-";
@@ -18,26 +18,24 @@ public class ExpressionAlgorithmus {
     private static final String SIGN_DIV = "/";
     private static final String SIGN_STOP = ")";
 
-    // TODO - einmal normale, einmal rekursiv
-
 
     public ExpressionAlgorithmus() {
-        this.stack = new Stack<String>();
+        this.stack = new Stack<Token>();
     }
 
     private void execute(String expression) {
 
-        ArrayList<String> tokens = this.parseTokens(expression);
+        ArrayList<Token> tokens = this.parseTokens(expression);
 
-        String operand2;
-        String operator;
-        String operand1;
+        Token operand2;
+        Token operator;
+        Token operand1;
 
         for (int i = 0; i < tokens.size(); i++) {
 
-            String nextToken = tokens.get(i);
+            Token nextToken = tokens.get(i);
 
-            if (!(nextToken.equals(SIGN_STOP))) {
+            if (!(nextToken.getValue().equals(SIGN_STOP))) {
 
                 this.stack.push(nextToken);
 
@@ -52,28 +50,28 @@ public class ExpressionAlgorithmus {
                 // Berechnen
 
                 int result = 0;
-                if (operator.equals(SIGN_PLUS)) {
+                if (operator.getValue().equals(SIGN_PLUS)) {
                     System.out.println(operand1 + "+" + operand2);
-                    result = Integer.valueOf(operand1) + Integer.valueOf(operand2);
+                    result = operand1.getIntegerValue() + operand2.getIntegerValue();
 
-                } else if (operator.equals(SIGN_MINUS)) {
+                } else if (operator.getValue().equals(SIGN_MINUS)) {
                     System.out.println(operand1 + "-" + operand2);
-                    result = Integer.valueOf(operand1) - Integer.valueOf(operand2);
+                    result = operand1.getIntegerValue() - operand2.getIntegerValue();
 
-                } else if (operator.equals(SIGN_MULT)) {
+                } else if (operator.getValue().equals(SIGN_MULT)) {
                     System.out.println(operand1 + "*" + operand2);
-                    result = Integer.valueOf(operand1) * Integer.valueOf(operand2);
+                    result = operand1.getIntegerValue() * operand2.getIntegerValue();
 
-                } else if (operator.equals(SIGN_DIV)) {
+                } else if (operator.getValue().equals(SIGN_DIV)) {
                     System.out.println(operand1 + "/" + operand2);
-                    result = Integer.valueOf(operand1) / Integer.valueOf(operand2);
+                    result = operand1.getIntegerValue() / operand2.getIntegerValue();
                 }
 
                 System.out.println("result: " + result);
 
 
 
-                this.stack.push( Integer.toString(result));
+                this.stack.push( new Token(String.valueOf(result)));
 
             }
 
@@ -85,37 +83,10 @@ public class ExpressionAlgorithmus {
 
     }
 
-    private String parseNextToken(String expression){
 
-        String token = expression.substring(0, 1);
+    private ArrayList<Token> parseTokens(String expression){
 
-        int i = 0;
-
-        while(i < expression.length()){
-
-            try {
-
-                Integer.valueOf(expression.substring(i, i + 1));
-
-                token = expression.substring(0, i+1);
-
-            } catch (NumberFormatException e){
-                System.out.println("token: " + token);
-                return  token;
-            }
-
-            i++;
-        }
-
-        System.out.println("token: " + token);
-
-        return  token;
-
-    }
-
-    private ArrayList<String> parseTokens(String expression){
-
-        ArrayList<String> tokens = new ArrayList<String>();
+        ArrayList<Token> tokens = new ArrayList<Token>();
 
         for(int i = 1; i <= expression.length(); i++) {
 
@@ -126,7 +97,7 @@ public class ExpressionAlgorithmus {
 
             } catch (Exception e){
 
-                tokens.add(expression.substring(0,i));
+                tokens.add(new Token(expression.substring(0,i)));
 
                 expression = expression.substring(i);
 
@@ -150,22 +121,27 @@ public class ExpressionAlgorithmus {
         new ExpressionAlgorithmus().execute("(((1+2)*3)-(7*8))");
         new ExpressionAlgorithmus().execute("(((11+2)*3)-(7*8))");
 
-        //System.out.println(new ExpressionAlgorithmus().parseNextToken("115+1"));
-
-        //new ExpressionAlgorithmus().parseTokens("(((11+2)*3)-(7*8))");
-
     }
 
     private static class Token{
 
-        char[] value;
+        String value;
 
-        public Token(char[] value) {
+        public Token(String value) {
             this.value = value;
         }
 
         public int getIntegerValue(){
-            return 0;
+            return Integer.valueOf(value);
+        }
+
+        public String getValue() {
+            return value;
+        }
+
+        @Override
+        public String toString() {
+            return value;
         }
     }
 
