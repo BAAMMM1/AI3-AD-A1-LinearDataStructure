@@ -1,5 +1,8 @@
 package task4;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Diese Klasse stellt den Algorithmus zur Verarbeitung vollständig geklammerter Ausdrücke da.
  *
@@ -24,15 +27,19 @@ public class ExpressionAlgorithmus {
 
     private void execute(String expression) {
 
+        ArrayList<String> tokens = this.parseTokens(expression);
+
         String operand2;
         String operator;
         String operand1;
 
-        for (int i = 0; i < expression.length(); i++) {
+        for (int i = 0; i < tokens.size(); i++) {
 
-            if (!expression.substring(i,i+1).equals(SIGN_STOP)) {
+            String nextToken = tokens.get(i);
 
-                this.stack.push(expression.substring(i,i+1));
+            if (!(nextToken.equals(SIGN_STOP))) {
+
+                this.stack.push(nextToken);
 
             } else {
                 operand2 = this.stack.pop();
@@ -75,13 +82,64 @@ public class ExpressionAlgorithmus {
 
         }
 
-        System.out.println("end result: " + this.stack.pop());
-
 
     }
 
-    private void parseIntoTokens(String expression){
+    private String parseNextToken(String expression){
 
+        String token = expression.substring(0, 1);
+
+        int i = 0;
+
+        while(i < expression.length()){
+
+            try {
+
+                Integer.valueOf(expression.substring(i, i + 1));
+
+                token = expression.substring(0, i+1);
+
+            } catch (NumberFormatException e){
+                System.out.println("token: " + token);
+                return  token;
+            }
+
+            i++;
+        }
+
+        System.out.println("token: " + token);
+
+        return  token;
+
+    }
+
+    private ArrayList<String> parseTokens(String expression){
+
+        ArrayList<String> tokens = new ArrayList<String>();
+
+        for(int i = 1; i <= expression.length(); i++) {
+
+            try{
+
+                Integer.valueOf(expression.substring(0,i));
+                Integer.valueOf(expression.substring(0,i+1));
+
+            } catch (Exception e){
+
+                tokens.add(expression.substring(0,i));
+
+                expression = expression.substring(i);
+
+                i = 0;
+
+            }
+
+        }
+
+
+        System.out.println("tokens: " + tokens.toString());
+
+        return tokens;
 
 
 
@@ -89,7 +147,12 @@ public class ExpressionAlgorithmus {
 
     public static void main(String[] args) {
 
-        new ExpressionAlgorithmus().execute("((((1+2)*3)-(7*8))");
+        new ExpressionAlgorithmus().execute("(((1+2)*3)-(7*8))");
+        new ExpressionAlgorithmus().execute("(((11+2)*3)-(7*8))");
+
+        //System.out.println(new ExpressionAlgorithmus().parseNextToken("115+1"));
+
+        //new ExpressionAlgorithmus().parseTokens("(((11+2)*3)-(7*8))");
 
     }
 
