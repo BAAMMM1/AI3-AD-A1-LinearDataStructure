@@ -1,115 +1,111 @@
 package task2;
 
+import org.junit.Before;
 import org.junit.Test;
+import task1.ILinearList;
+
+import java.util.Random;
 
 import static org.junit.Assert.*;
 
+// Grenzwerte, Testfälle (Positivtest), Unzulässige Eingaben (Negativtest)
+// Testfälle - Vorbereitet, Random
+// Zeitschranken
+//        1.	Grenzwerte
+//        2.	Testfälle (Positivtest) - BlackBox
+//              a.	Vorbereitet
+//              b.	Random
+//              c.	Code-Abdeckung      Testen des Inhaltes jeder If Abfrage(if, elseif, elseif, else) - WhiteBox
+//              d.	Pfad-Abdeckung      verkettete if ablaufen, was ist default weg/Ergebnis           - WhiteBox
+//        3.	Unzulässige Eingaben (Negativtest) - WhiteBox
+//              a.	Fluchtwerte
+//              b.	Default-Werte
+//              c.	Exception
+//              d.	Abbrechen des Programms (Gescheiterte Nachbedingung (Assertion))
+//              e.	Undefiniertes Verhalten
+//        4.	Zeitschranken
+
+
 /**
- * @author Chris on 09.04.2018
+ * @author Shadai on 10.04.2018
  */
 public class ArrayBasedListTest {
+    private ILinearList iLinearListZero;
+    private ILinearList iLinearListRandom;
+    private int randomNumber;
 
+    @Before
+    public void setup(){
+
+        iLinearListZero = new ArrayBasedList<Integer>();
+
+        iLinearListRandom = new ArrayBasedList<Integer>();
+        randomNumber = new Random().nextInt(11);
+        for (int i=0; i < randomNumber; i++){
+            iLinearListRandom.insert(i, new Integer (randomNumber*10));
+        }
+    }
+
+
+
+    // size-Tests
     @Test
-    public void insertTest(){
-        ArrayBasedList<Integer> list = new ArrayBasedList<Integer>();
-
-        list.insert(0, new Integer(1));
-
-        assertEquals(1, list.size());
-        System.out.println(list.toString());
-
-        list.insert(1, new Integer(2));
-
-        assertEquals(2, list.size());
-        System.out.println(list.toString());
-
-        list.insert(2, new Integer(3));
-        System.out.println(list.toString());
-        list.insert(3, new Integer(4));
-        System.out.println(list.toString());
-        list.insert(4, new Integer(5));
-
-        assertEquals(5, list.size());
-        System.out.println(list.toString());
-
-
-        list.insert(2, new Integer(9));
-
-        assertEquals(6, list.size());
-
-        System.out.println(list.toString());
-
+    public void sizeZeroList() {
+        assertEquals("Size of empty list",0,iLinearListZero.size());
     }
 
     @Test
-    public void deleteTest(){
-
-        ArrayBasedList<Integer> list = new ArrayBasedList<Integer>();
-
-        for(int index = 0 ; index <= 5; index++){
-            list.insert(index, new Integer(index));
-        }
-
-        System.out.println(list.toString());
-
-        list.delete(2);
-
-        System.out.println(list.toString());
-        for(int index = 0 ; index <= 4; index++){
-            list.delete(0);
-            System.out.println(list.toString());
-        }
-
-
-
-        list.insert(0, new Integer(1));
-        System.out.println(list.toString());
-        list.insert(0, new Integer(2));
-        System.out.println(list.toString());
-
+    public void sizeRandomList() {
+        assertEquals("Size of random hugh list",randomNumber,iLinearListRandom.size());
     }
+
+
+
+    // insert-Tests
+    @Test
+    public void insert() {
+    }
+
+
+
+    // delete-Tests
+    @Test
+    public void delete() {
+    }
+
+
+
+    // retrieve-Test
+    @Test
+    public void retrieve() {
+    }
+
+
+
+    // clean-tests
+    @Test
+    public void cleanRandomList() {
+        iLinearListRandom.clean();
+        assertEquals("Clean-Method testing on Random hugh List",0,iLinearListRandom.size());
+    }
+
+
 
     @Test
-    public void concatTest(){
-
-        ArrayBasedList<Integer> list1 = new ArrayBasedList<Integer>();
-
-        ArrayBasedList<Integer> list2 = new ArrayBasedList<Integer>();
-
-        for(int index = 0 ; index <= 5; index++){
-            list1.insert(index, new Integer(index));
-            list2.insert(index, new Integer(10+ index));
-        }
-
-        System.out.println(list1.toString());
-        System.out.println(list2.toString());
-
-        list1.concat(list2);
-
-        System.out.println(list1.toString());
-
-
-
-
+    public void cleanZeroList() {
+        iLinearListZero.clean();
+        assertEquals("Clean-Method testing on empty List",0,iLinearListZero.size());
     }
+
+
 
     @Test
-    public void extractTest(){
-
-        ArrayBasedList<Integer> list1 = new ArrayBasedList<Integer>();
-
-        for(int index = 0 ; index <= 10; index++){
-            list1.insert(index, new Integer(index));
-        }
-
-        System.out.println(list1.extract(4,8));
-
-        System.out.println(list1.extract(0,9));
-
-        System.out.println(list1.extract(0,0));
-
-        System.out.println(list1.extract(10,10));
-
+    public void concat() {
     }
 
+
+
+    @Test
+    public void extract() {
+    }
 }
