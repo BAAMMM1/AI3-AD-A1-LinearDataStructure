@@ -69,8 +69,6 @@ public class ExpressionAlgorithmus {
 
                 System.out.println("result: " + result);
 
-
-
                 this.stack.push( new Token(String.valueOf(result)));
 
             }
