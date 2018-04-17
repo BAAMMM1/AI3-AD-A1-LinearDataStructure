@@ -11,19 +11,17 @@ import static org.junit.Assert.*;
 // Grenzwerte, Testfälle (Positivtest), Unzulässige Eingaben (Negativtest)
 // Testfälle - Vorbereitet, Random
 // Zeitschranken
-//        1.	Grenzwerte      sind dies nicht schon Positiv und Negativtests?
-//                              Positiv, was min und max geht
-//                              Negativ, was dann nicht mehr geht
-//        2.	Testfälle (Positivtest) - BlackBox
-//              a.	Vorbereitet
-//              b.	Random
+//        1.	Testfälle (Positivtest) -
+//              a. Grenzwerte - Positiv, was min und max geht - BlackBox
+//              a.	Vorbereitet - BlackBox
+//              b.	Random - BlackBox
 //              c.	Code-Abdeckung      Testen des Inhaltes jeder If Abfrage(if, elseif, elseif, else) - WhiteBox
 //              d.	Pfad-Abdeckung      verkettete if ablaufen, was ist default weg/Ergebnis           - WhiteBox
 //        3.	Unzulässige Eingaben (Negativtest) - WhiteBox
-//              a.	Fluchtwerte
-//              b.	Default-Werte
-//              c.	Exception
-//              d.	Abbrechen des Programms (Gescheiterte Nachbedingung (Assertion))
+//              a.	Fluchtwerte - WhiteBox
+//              b.	Default-Werte - WhiteBox
+//              c.	Exception - Negativ, was dann nicht mehr geht - WhiteBox
+//              d.	Abbrechen des Programms (Gescheiterte Nachbedingung (Assertion)) - WhiteBox
 //              e.	Undefiniertes Verhalten
 //        4.	Zeitschranken
 
@@ -33,15 +31,15 @@ import static org.junit.Assert.*;
  */
 public class ArrayBasedListTest {
     private ILinearList iLinearListZero;
-    private ILinearList iLinearListRandomForManipulateFilledWithInt;
-    private ILinearList iLinearListRandomForCompareFilledWithInt;
-    private ILinearList iLinearListFilledWithDouble;
-    private int randomIntNumber;
-    private int otherRandomIntNumber;
+    private ILinearList<Integer> iLinearListRandomForManipulateFilledWithInt;
+    private ILinearList<Integer> iLinearListRandomForCompareFilledWithInt;
+    private ILinearList<Double> iLinearListFilledWithDouble;
+    private Integer randomIntNumber;
+    private Integer otherRandomIntNumber;
 
-    private final static int MAX_RANDOMNUMBER = 11;
+    private final static Integer MAX_RANDOMNUMBER = 11;
     private final static String STRING_TYPE_INSTEAD_OF_INT = "HelloWorld";
-    private final static double DOUBLE_TYPE_INSTEAD_OF_INT = 12.34;
+    private final static Double DOUBLE_TYPE_INSTEAD_OF_INT = 12.34;
 
     @Before
     public void setup(){
@@ -57,7 +55,7 @@ public class ArrayBasedListTest {
         iLinearListRandomForManipulateFilledWithInt = new ArrayBasedList<Integer>();
         iLinearListRandomForCompareFilledWithInt = new ArrayBasedList<Integer>();
         iLinearListFilledWithDouble = new ArrayBasedList<Double>();
-        for (int i = 0; i < randomIntNumber; i++){
+        for (int i = 0; i < randomIntNumber+3; i++){
             int k = new Random().nextInt(MAX_RANDOMNUMBER);
             iLinearListRandomForManipulateFilledWithInt.insert(i, k);
             iLinearListRandomForCompareFilledWithInt.insert(i, k);
@@ -80,7 +78,7 @@ public class ArrayBasedListTest {
     @Test
     public void sizeRandomFilledList() {
         assertEquals("Size of random hugh list",
-                randomIntNumber,
+                randomIntNumber.intValue()+3,
                 iLinearListRandomForManipulateFilledWithInt.size());
     }
 
@@ -100,39 +98,50 @@ public class ArrayBasedListTest {
     public void insertRandomNumberAtFirstPositionOfRandomFilledList(){
         iLinearListRandomForManipulateFilledWithInt.insert(0, randomIntNumber);
         assertEquals("Insert random number at first Postion of random filled List",
-                randomIntNumber,
-                iLinearListRandomForManipulateFilledWithInt.retrieve(0));
+                randomIntNumber.intValue(),
+                iLinearListRandomForManipulateFilledWithInt.retrieve(0).intValue());
     }
     @Test
     public void insertOnRandomPositionARandomNumberOfRandomFilledList() {
-       // zufällige Zahl an zufälliger Position soll via insert hinzugefügt werden
-        iLinearListRandomForManipulateFilledWithInt.insert(randomIntNumber, otherRandomIntNumber);
-
-        // Vergleichsliste wird erstellt
-        iLinearListRandomForCompareFilledWithInt.clean();
-        // 1. part bis random
-        for (int i = 0; i < randomIntNumber -1; i++)
-        { iLinearListRandomForCompareFilledWithInt.insert(i, iLinearListRandomForManipulateFilledWithInt.retrieve(i));}
-        // 2. Part, gleiche zufällige Zahl an gleicher zufäligen Position
-        iLinearListRandomForCompareFilledWithInt.insert(iLinearListRandomForCompareFilledWithInt.size(), otherRandomIntNumber);
-        // 3. Part Rest der Liste
-        for (int i = iLinearListRandomForCompareFilledWithInt.size(); i< iLinearListRandomForManipulateFilledWithInt.size(); i++)
-       iLinearListRandomForCompareFilledWithInt.insert(i, iLinearListRandomForManipulateFilledWithInt.retrieve(i));
+//       // zufällige Zahl an zufälliger Position soll via insert hinzugefügt werden
+//        iLinearListRandomForManipulateFilledWithInt.insert(randomIntNumber, otherRandomIntNumber);
+//
+//        // Vergleichsliste wird erstellt
+//        iLinearListRandomForCompareFilledWithInt.clean();
+//        // 1. part bis random
+//        for (int i = 0; i < randomIntNumber; i++)
+//        { iLinearListRandomForCompareFilledWithInt.insert(i, iLinearListRandomForManipulateFilledWithInt.retrieve(i));}
+//        // 2. Part, gleiche zufällige Zahl an gleicher zufäligen Position
+//        iLinearListRandomForCompareFilledWithInt.insert(iLinearListRandomForCompareFilledWithInt.size(), otherRandomIntNumber);
+//        // 3. Part Rest der Liste
+//        for (int i = iLinearListRandomForCompareFilledWithInt.size(); i< iLinearListRandomForManipulateFilledWithInt.size(); i++)
+//       iLinearListRandomForCompareFilledWithInt.insert(i, iLinearListRandomForManipulateFilledWithInt.retrieve(i));
 
         // oder via wiederverwertung von geschriebenen methoden
+        System.out.println(iLinearListRandomForManipulateFilledWithInt.toString());
+        iLinearListRandomForCompareFilledWithInt.clean();
+        randomIntNumber = new Random().nextInt(1+ iLinearListRandomForManipulateFilledWithInt.size()) ;
 
-//        iLinearListRandomForCompareFilledWithInt.clean();
-//        // 1. Part bis Random
-//        iLinearListRandomForCompareFilledWithInt.concat(iLinearListRandomForManipulateFilledWithInt.extract(0,randomIntNumber-1));
-//        // 2. Part, gleiche zufällige Zahl an gleicher zufäligen Position
-//        iLinearListRandomForCompareFilledWithInt.insert(randomIntNumber, otherRandomIntNumber);
-//        // 3. Part Rest der Liste   (hier muss randomnumber +1, da wir das zufällige Element ja schon hinzugefügt haben)
-//        // Vorbedinung von extract wird hier verletzt, warum?!? von manipulierter Liste hinter der hinzugefügten
-//        // zufallszahl an randomposition bis letzer posi -> size-1, und das verstößt gegen beide vorbedinungen,
-//        // das hinter random posi >= 0 und < size, und danach verstoß gegen letzte posi -> letzte posi > randomposi+1 und letzte posi < size
-//        // sind also von der Logik her alles berücksichtigt und wirft trotzdem Illegal Argument
-//        iLinearListRandomForCompareFilledWithInt.concat(iLinearListRandomForManipulateFilledWithInt.extract(randomIntNumber+1, iLinearListRandomForManipulateFilledWithInt.size()-1));
+        if(!(randomIntNumber == 0)){
+            // 1. Part bis Random
+            iLinearListRandomForCompareFilledWithInt.concat(iLinearListRandomForManipulateFilledWithInt.extract(0,randomIntNumber-1));
+        }
 
+        System.out.println("randomInt: " + randomIntNumber);
+
+        // 2. Part, gleiche zufällige Zahl an gleicher zufäligen Position
+        iLinearListRandomForCompareFilledWithInt.insert(randomIntNumber, otherRandomIntNumber);
+        // 3. Part Rest der Liste   (hier muss randomnumber +1, da wir das zufällige Element ja schon hinzugefügt haben)
+        // Vorbedinung von extract wird hier verletzt, warum?!? von manipulierter Liste hinter der hinzugefügten
+        // zufallszahl an randomposition bis letzer posi -> size-1, und das verstößt gegen beide vorbedinungen,
+        // das hinter random posi >= 0 und < size, und danach verstoß gegen letzte posi -> letzte posi > randomposi+1 und letzte posi < size
+        // sind also von der Logik her alles berücksichtigt und wirft trotzdem Illegal Argument
+
+        System.out.println("otherrandom "+otherRandomIntNumber);
+
+        iLinearListRandomForCompareFilledWithInt.concat(iLinearListRandomForManipulateFilledWithInt.extract(randomIntNumber, iLinearListRandomForManipulateFilledWithInt.size()-1));
+
+        iLinearListRandomForManipulateFilledWithInt.insert(randomIntNumber, otherRandomIntNumber);
         assertEquals("Insert random number at random position of random filled List",
                 iLinearListRandomForCompareFilledWithInt,
                 iLinearListRandomForManipulateFilledWithInt);
@@ -145,13 +154,14 @@ public class ArrayBasedListTest {
                 randomIntNumber,
                 iLinearListRandomForManipulateFilledWithInt.retrieve(iLinearListRandomForManipulateFilledWithInt.size()-1));
     }
-
-    // Negativtest
-    @Test(expected = IllegalArgumentException.class)
-    public void insertWrongTypeInListOfOtherTypes(){
-        // Try to insert another type of element as list is filled of
-        iLinearListRandomForManipulateFilledWithInt.insert(randomIntNumber,STRING_TYPE_INSTEAD_OF_INT);
-    }
+//    durch                vvvvvv statt ILinearList iLinearListRandomForManipulateFilledWithInt wird typensicherheit erforced, daher entfällt dieser Test nun
+//    private ILinearList<Integer> iLinearListRandomForManipulateFilledWithInt;
+//    // Negativtest
+//    @Test(expected = IllegalArgumentException.class)
+//    public void insertWrongTypeInListOfOtherTypes(){
+//        // Try to insert another type of element as list is filled of
+//        iLinearListRandomForManipulateFilledWithInt.insert(randomIntNumber,STRING_TYPE_INSTEAD_OF_INT);
+//    }
 
     @Test(expected = IllegalArgumentException.class)
     public void insertBelowFirstPositionOfRandomFilledList(){
@@ -300,12 +310,13 @@ public class ArrayBasedListTest {
                 iLinearListRandomForManipulateFilledWithInt.retrieve(randomIntNumber + iLinearListRandomForCompareFilledWithInt.size()));
     }
 
-    // Negativtest
-    @Test(expected = IllegalArgumentException.class)
-    public void concatAnythingElseThenListToList(){
-        // Eine Liste mit Elementen an eine andere Liste mit anderen Elementen hängen
-        iLinearListRandomForManipulateFilledWithInt.concat(iLinearListFilledWithDouble);
-    }
+//  durch iLinearList<Integer> iListManipulate kann die liste nur mit Integers gefüllt werden
+//    // Negativtest
+//    @Test(expected = IllegalArgumentException.class)
+//    public void concatListsOfDifferentDatatypes(){
+//        // Eine Liste mit Elementen an eine andere Liste mit anderen Elementen hängen
+//        iLinearListRandomForManipulateFilledWithInt.concat(iLinearListFilledWithDouble);
+//    }
 
     //*****************************************************************************
     // Erst auskommentieren wenn umsetzung erfüllt, da sonst Out of Memory Test!!!
@@ -321,14 +332,25 @@ public class ArrayBasedListTest {
     //Positivtest
     @Test
     public void extractFromFirstToRandomOfRandomFilledList() {
+
         iLinearListRandomForManipulateFilledWithInt.clean();
-        for (int i = 0; i < randomIntNumber -1; i++) {
-            iLinearListRandomForManipulateFilledWithInt.insert(i, iLinearListRandomForManipulateFilledWithInt.retrieve(i));
+        randomIntNumber = new Random().nextInt(iLinearListRandomForCompareFilledWithInt.size()-2)+1;
+        for (int i = 0; i < randomIntNumber ; i++) {
+            iLinearListRandomForManipulateFilledWithInt.insert(i, iLinearListRandomForCompareFilledWithInt.retrieve(i));
         }
         assertEquals("Extract from first position to random position at random filled list",
-                iLinearListRandomForManipulateFilledWithInt, iLinearListRandomForCompareFilledWithInt.extract(0,randomIntNumber));
-
+                iLinearListRandomForManipulateFilledWithInt,
+                iLinearListRandomForCompareFilledWithInt.extract(0,randomIntNumber-1));
     }
+
+
+    // von erster zu erster
+    // von letzter zu letzter
+    // von Erster zu random
+    // von random zu random
+    // von random zu letzter
+    // von erster zu letzter
+
 
     //Negativtest
     @Test(expected = IllegalArgumentException.class)
