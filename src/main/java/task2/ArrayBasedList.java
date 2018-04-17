@@ -2,7 +2,9 @@ package task2;
 
 import task1.ILinearList;
 
+import java.lang.reflect.Array;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Diese Klasse stellt eine Array basierte lineare Liste da.
@@ -38,7 +40,7 @@ public class ArrayBasedList<T> extends AbstractLinearList<T> {
     private T elements[];
 
     /**
-     * Kapazität des Arrays.
+     * Kapazität des Arrays
      */
     private int maxSize;
 
@@ -89,6 +91,9 @@ public class ArrayBasedList<T> extends AbstractLinearList<T> {
             this.adjustSize(INCREASE_FACTOR);
         }
     }
+
+
+
 
     /**
      * Löscht ein Element aus einer Liste an einer bestimmten Position.<p>
@@ -209,6 +214,26 @@ public class ArrayBasedList<T> extends AbstractLinearList<T> {
                 ", maxSize=" + maxSize +
                 '}';
     }
-
-
+//    @Override
+//    public <E> void insertType(int position, E element) throws IllegalArgumentException {
+//
+//        // 1. precondition check
+//        if (!(0 <= position && position <= size)) throw new IllegalArgumentException();
+//        if (!(element == (T) element)) throw new IllegalArgumentException();
+//        if (element == null) throw new IllegalArgumentException();
+//
+//        // 2. Alle Elemente von hinten eine position nach rechts verschieben
+//        for (int index = size - 1; index >= position; index--) {
+//            this.elements[index + 1] = this.elements[index];
+//        }
+//
+//        // 3. Element einfügen
+//        this.elements[position] = (T) element;
+//        this.size++;
+//
+//        // 4. Größe anpassen
+//        if (this.size == maxSize) {
+//            this.adjustSize(INCREASE_FACTOR);
+//        }
+//         }
 }
