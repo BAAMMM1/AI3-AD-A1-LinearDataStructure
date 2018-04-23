@@ -29,7 +29,7 @@ import static org.junit.Assert.*;
 /**
  * @author Shadai on 10.04.2018
  */
-public class ArrayBasedListTest {
+public class DoubleLinkedListTest {
     private ILinearList iLinearListZero;
     private ILinearList<Integer> iLinearListRandomForManipulateFilledWithInt;
     private ILinearList<Integer> iLinearListRandomForCompareFilledWithInt;
@@ -49,12 +49,12 @@ public class ArrayBasedListTest {
 
 
         // Leere Liste
-        iLinearListZero = new ArrayBasedList<Integer>();
+        iLinearListZero = new DoubleLinkedList<Integer>();
 
         // 2 gleiche zufällig gefüllte Listen mit Integer Werten
-        iLinearListRandomForManipulateFilledWithInt = new ArrayBasedList<Integer>();
-        iLinearListRandomForCompareFilledWithInt = new ArrayBasedList<Integer>();
-        iLinearListFilledWithDouble = new ArrayBasedList<Double>();
+        iLinearListRandomForManipulateFilledWithInt = new DoubleLinkedList<Integer>();
+        iLinearListRandomForCompareFilledWithInt = new DoubleLinkedList<Integer>();
+        iLinearListFilledWithDouble = new DoubleLinkedList<Double>();
         for (int i = 0; i < randomIntNumber+3; i++){
             int k = new Random().nextInt(MAX_RANDOMNUMBER);
             iLinearListRandomForManipulateFilledWithInt.insert(i, k);
