@@ -84,7 +84,7 @@ public class DoubleLinkedList<T> extends AbstractLinearList<T> {
                 nodeOnPosition = this.iteratedFromTail(position);
             }
 
-            node.setPrev(nodeOnPosition.prev);
+            node.setPrev(nodeOnPosition.getPrev());
             node.setNext(nodeOnPosition);
             nodeOnPosition.getPrev().setNext(node);
             nodeOnPosition.setPrev(node);
@@ -199,6 +199,8 @@ public class DoubleLinkedList<T> extends AbstractLinearList<T> {
 
     private Node<T> iteratedFromHead(int position) {
 
+        if(head == null) throw new IllegalArgumentException();
+
         Node<T> result = this.head;
 
         for (int i = 1; i <= position; i++) {
@@ -210,6 +212,8 @@ public class DoubleLinkedList<T> extends AbstractLinearList<T> {
 
     private Node<T> iteratedFromTail(int position) {
 
+        if(tail == null) throw new IllegalArgumentException();
+
         Node<T> result = this.tail;
 
         for (int i = this.size-1; i > position; i--) {
@@ -219,6 +223,23 @@ public class DoubleLinkedList<T> extends AbstractLinearList<T> {
         return result;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        DoubleLinkedList<?> that = (DoubleLinkedList<?>) o;
+
+        if (head != null ? !head.equals(that.head) : that.head != null) return false;
+        return tail != null ? tail.equals(that.tail) : that.tail == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = head != null ? head.hashCode() : 0;
+        result = 31 * result + (tail != null ? tail.hashCode() : 0);
+        return result;
+    }
 
     @Override
     public String toString() {
@@ -241,7 +262,7 @@ public class DoubleLinkedList<T> extends AbstractLinearList<T> {
      *
      * @param <T>
      */
-    static class Node<T> {
+    private static class Node<T> {
 
         /**
          * Daten des Knoten
@@ -301,9 +322,7 @@ public class DoubleLinkedList<T> extends AbstractLinearList<T> {
 
             Node<?> node = (Node<?>) o;
 
-            if (element != null ? !element.equals(node.element) : node.element != null) return false;
-            if (prev != null ? !prev.equals(node.prev) : node.prev != null) return false;
-            return next != null ? next.equals(node.next) : node.next == null;
+            return element != null ? element.equals(node.element) : node.element == null;
         }
 
         @Override

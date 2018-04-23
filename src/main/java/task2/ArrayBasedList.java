@@ -40,7 +40,7 @@ public class ArrayBasedList<T> extends AbstractLinearList<T> {
     private T elements[];
 
     /**
-     * Kapazität des Arrays
+     * Kapazität des Arrays.
      */
     private int maxSize;
 

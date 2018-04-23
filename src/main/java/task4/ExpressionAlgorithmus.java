@@ -23,7 +23,7 @@ public class ExpressionAlgorithmus {
         this.stack = new Stack<Token>();
     }
 
-    private void execute(String expression) {
+    private int execute(String expression) {
 
         ArrayList<Token> tokens = this.parseTokens(expression);
 
@@ -76,7 +76,11 @@ public class ExpressionAlgorithmus {
             System.out.println(this.stack.toString());
 
 
+
+
         }
+
+        return this.stack.pop().getIntegerValue();
 
 
     }
@@ -116,8 +120,8 @@ public class ExpressionAlgorithmus {
 
     public static void main(String[] args) {
 
-        new ExpressionAlgorithmus().execute("(((1+2)*3)-(7*8))");
-        new ExpressionAlgorithmus().execute("(((11+2)*3)-(7*8))");
+        System.out.println(new ExpressionAlgorithmus().execute("(((1+2)*3)-(7*8))"));
+        System.out.println(new ExpressionAlgorithmus().execute("(((11+2)*3)-(7*8))"));
 
     }
 
