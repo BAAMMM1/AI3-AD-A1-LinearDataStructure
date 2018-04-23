@@ -15,11 +15,15 @@ public class MinMaxAlgortihmus {
 
     public MinMaxAlgortihmus(int[] array) {
 
+        if(array == null) throw new IllegalArgumentException("array must not be null");
+
         this.compute(array);
 
     }
 
     private void compute(int[] array) {
+
+        if(array == null) throw new IllegalArgumentException("array must not be null");
 
         this.min = array[0];
         this.max = array[0];

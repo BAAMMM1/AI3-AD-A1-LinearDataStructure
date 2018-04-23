@@ -130,7 +130,7 @@ public class MinMaxAlgortihmusTest {
 
         assertEquals(SIZE, algo.getMin());
         assertEquals(SIZE, algo.getMax());
-        assertTrue("number of comparisons must be less than 2*n", algo.getComparisons() < MAX_COMPARISONS);
+        assertTrue(algo.getComparisons() < MAX_COMPARISONS);
 
     }
 
@@ -141,7 +141,7 @@ public class MinMaxAlgortihmusTest {
 
         assertEquals(-SIZE, algo.getMin());
         assertEquals(-SIZE, algo.getMax());
-        assertTrue("number of comparisons must be less than 2*n",algo.getComparisons() < MAX_COMPARISONS);
+        assertTrue(algo.getComparisons() < MAX_COMPARISONS);
 
     }
 
@@ -152,8 +152,14 @@ public class MinMaxAlgortihmusTest {
 
         assertEquals(this.randomMin, algo.getMin());
         assertEquals(this.randomMax, algo.getMax());
-        assertTrue("number of comparisons must be less than 2*n", algo.getComparisons() < MAX_COMPARISONS);
+        assertTrue(algo.getComparisons() < MAX_COMPARISONS);
 
     }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void computeNull(){
+        MinMaxAlgortihmus algo = new MinMaxAlgortihmus(null);
+    }
+
 
 }

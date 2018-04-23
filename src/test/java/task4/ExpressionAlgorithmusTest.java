@@ -7,4 +7,8 @@ import static org.junit.Assert.*;
  */
 public class ExpressionAlgorithmusTest {
 
+    ExpressionAlgorithmus algo;
+
+
+
 }

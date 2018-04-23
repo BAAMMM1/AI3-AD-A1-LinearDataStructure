@@ -1,7 +1,6 @@
 package task4;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Diese Klasse stellt den Algorithmus zur Verarbeitung vollständig geklammerter Ausdrücke da.
@@ -10,66 +9,42 @@ import java.util.List;
  */
 public class ExpressionAlgorithmus {
 
-    private Stack<Token> stack;
-    
-    private static final String SIGN_PLUS = "+";
-    private static final String SIGN_MINUS = "-";
-    private static final String SIGN_MULT = "*";
-    private static final String SIGN_DIV = "/";
+    private Stack<String> stack;
+
     private static final String SIGN_STOP = ")";
 
 
     public ExpressionAlgorithmus() {
-        this.stack = new Stack<Token>();
+        this.stack = new Stack<String>();
     }
 
-    private int execute(String expression) {
+    private int execute(String expression) throws IllegalArgumentException {
 
-        ArrayList<Token> tokens = this.parseTokens(expression);
+        ArrayList<String> tokens = this.parseTokens(expression);
 
-        Token operand2;
-        Token operator;
-        Token operand1;
 
         for (int i = 0; i < tokens.size(); i++) {
 
-            Token nextToken = tokens.get(i);
+            String nextToken = tokens.get(i);
 
-            if (!(nextToken.getValue().equals(SIGN_STOP))) {
+            if (!(nextToken.equals(SIGN_STOP))) {
 
                 this.stack.push(nextToken);
 
             } else {
-                operand2 = this.stack.pop();
-                operator = this.stack.pop();
-                operand1 = this.stack.pop();
+                Operand operand2 = new Operand(this.stack.pop());
+                Operator operator = new Operator(this.stack.pop());
+                Operand operand1 = new Operand(this.stack.pop());
 
                 // entfernen von ( vom Stack
                 this.stack.pop();
 
                 // Berechnen
 
-                int result = 0;
-                if (operator.getValue().equals(SIGN_PLUS)) {
-                    System.out.println(operand1 + "+" + operand2);
-                    result = operand1.getIntegerValue() + operand2.getIntegerValue();
+                int result = operator.calculate(operand1, operand2);
 
-                } else if (operator.getValue().equals(SIGN_MINUS)) {
-                    System.out.println(operand1 + "-" + operand2);
-                    result = operand1.getIntegerValue() - operand2.getIntegerValue();
 
-                } else if (operator.getValue().equals(SIGN_MULT)) {
-                    System.out.println(operand1 + "*" + operand2);
-                    result = operand1.getIntegerValue() * operand2.getIntegerValue();
-
-                } else if (operator.getValue().equals(SIGN_DIV)) {
-                    System.out.println(operand1 + "/" + operand2);
-                    result = operand1.getIntegerValue() / operand2.getIntegerValue();
-                }
-
-                System.out.println("result: " + result);
-
-                this.stack.push( new Token(String.valueOf(result)));
+                this.stack.push( String.valueOf(result));
 
             }
 
@@ -80,14 +55,13 @@ public class ExpressionAlgorithmus {
 
         }
 
-        return this.stack.pop().getIntegerValue();
+        return Integer.valueOf(this.stack.pop());
 
     }
 
+    private ArrayList<String> parseTokens(String expression){
 
-    private ArrayList<Token> parseTokens(String expression){
-
-        ArrayList<Token> tokens = new ArrayList<Token>();
+        ArrayList<String> tokens = new ArrayList<String>();
 
         for(int i = 1; i <= expression.length(); i++) {
 
@@ -98,7 +72,7 @@ public class ExpressionAlgorithmus {
 
             } catch (Exception e){
 
-                tokens.add(new Token(expression.substring(0,i)));
+                tokens.add(expression.substring(0,i));
 
                 expression = expression.substring(i);
 
@@ -119,8 +93,10 @@ public class ExpressionAlgorithmus {
 
     public static void main(String[] args) {
 
-        System.out.println(new ExpressionAlgorithmus().execute("(((1+2)*3)-(7*8))"));
-        System.out.println(new ExpressionAlgorithmus().execute("(((11+2)*3)-(7*8))"));
+        System.out.println("result: " + new ExpressionAlgorithmus().execute("(((1+2)*3)-(7*8))"));
+        System.out.println("result: " + new ExpressionAlgorithmus().execute("(((11+2)*3)-(7*8))"));
+
+        System.out.println("result: " + new ExpressionAlgorithmus().execute("(1+2)"));
 
     }
 
@@ -132,17 +108,63 @@ public class ExpressionAlgorithmus {
             this.value = value;
         }
 
+        @Override
+        public String toString() {
+            return value;
+        }
+    }
+
+    private static class Operand extends Token{
+
+        public Operand(String value) {
+            super(value);
+
+            try{
+                Integer.valueOf(value);
+            } catch (Exception e) {
+                throw new IllegalArgumentException("incorrect string");
+            }
+
+        }
+
         public int getIntegerValue(){
             return Integer.valueOf(value);
         }
 
-        public String getValue() {
-            return value;
+    }
+
+    private static class Operator extends Token{
+
+        private static final String SIGN_PLUS = "+";
+        private static final String SIGN_MINUS = "-";
+        private static final String SIGN_MULT = "*";
+        private static final String SIGN_DIV = "/";
+
+
+        public Operator(String value) {
+            super(value);
         }
 
-        @Override
-        public String toString() {
-            return value;
+        public int calculate(Operand operand1, Operand operand2){
+            int result = 0;
+
+            if (this.value.equals(SIGN_PLUS)) {
+                result = operand1.getIntegerValue() + operand2.getIntegerValue();
+
+            } else if (this.value.equals(SIGN_MINUS)) {
+                result = operand1.getIntegerValue() - operand2.getIntegerValue();
+
+            } else if (this.value.equals(SIGN_MULT)) {
+                result = operand1.getIntegerValue() * operand2.getIntegerValue();
+
+            } else if (this.value.equals(SIGN_DIV)) {
+                result = operand1.getIntegerValue() / operand2.getIntegerValue();
+            } else {
+                throw new IllegalArgumentException("incorrect string");
+            }
+
+            return result;
+
         }
     }
 
