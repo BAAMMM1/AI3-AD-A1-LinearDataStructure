@@ -82,7 +82,6 @@ public class ExpressionAlgorithmus {
 
         return this.stack.pop().getIntegerValue();
 
-
     }
 
 
