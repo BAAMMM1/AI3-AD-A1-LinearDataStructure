@@ -18,14 +18,11 @@ public class ExpressionAlgorithmus {
         this.stack = new Stack<String>();
     }
 
-    private int execute(String expression) throws IllegalArgumentException {
+    public int compute(String expression) throws IllegalArgumentException {
 
         ArrayList<String> tokens = this.parseTokens(expression);
 
-
-        for (int i = 0; i < tokens.size(); i++) {
-
-            String nextToken = tokens.get(i);
+        for (String nextToken : tokens) {
 
             if (!(nextToken.equals(SIGN_STOP))) {
 
@@ -40,39 +37,37 @@ public class ExpressionAlgorithmus {
                 this.stack.pop();
 
                 // Berechnen
-
                 int result = operator.calculate(operand1, operand2);
 
-
-                this.stack.push( String.valueOf(result));
-
+                this.stack.push(String.valueOf(result));
             }
 
             System.out.println(this.stack.toString());
-
-
-
-
         }
 
-        return Integer.valueOf(this.stack.pop());
+        int result = Integer.valueOf(this.stack.pop());
+
+        if (!this.stack.isEmpty()) throw new IllegalArgumentException();
+
+        return result;
 
     }
 
-    private ArrayList<String> parseTokens(String expression){
 
-        ArrayList<String> tokens = new ArrayList<String>();
+    private ArrayList<String> parseTokens(String expression) {
 
-        for(int i = 1; i <= expression.length(); i++) {
+        ArrayList<String> tokens = new ArrayList<>();
 
-            try{
+        for (int i = 1; i <= expression.length(); i++) {
 
-                Integer.valueOf(expression.substring(0,i));
-                Integer.valueOf(expression.substring(0,i+1));
+            try {
 
-            } catch (Exception e){
+                Integer.valueOf(expression.substring(0, i));
+                Integer.valueOf(expression.substring(0, i + 1));
 
-                tokens.add(expression.substring(0,i));
+            } catch (Exception e) {
+
+                tokens.add(expression.substring(0, i));
 
                 expression = expression.substring(i);
 
@@ -82,29 +77,18 @@ public class ExpressionAlgorithmus {
 
         }
 
-
         System.out.println("tokens: " + tokens.toString());
 
         return tokens;
 
-
-
     }
 
-    public static void main(String[] args) {
 
-        System.out.println("result: " + new ExpressionAlgorithmus().execute("(((1+2)*3)-(7*8))"));
-        System.out.println("result: " + new ExpressionAlgorithmus().execute("(((11+2)*3)-(7*8))"));
-
-        System.out.println("result: " + new ExpressionAlgorithmus().execute("(1+2)"));
-
-    }
-
-    private static class Token{
+    private static class Token {
 
         String value;
 
-        public Token(String value) {
+        private Token(String value) {
             this.value = value;
         }
 
@@ -114,26 +98,25 @@ public class ExpressionAlgorithmus {
         }
     }
 
-    private static class Operand extends Token{
+    private static class Operand extends Token {
 
-        public Operand(String value) {
+        private Operand(String value) {
             super(value);
 
-            try{
+            try {
                 Integer.valueOf(value);
             } catch (Exception e) {
-                throw new IllegalArgumentException("incorrect string");
+                throw new IllegalArgumentException("incorrect operand");
             }
-
         }
 
-        public int getIntegerValue(){
+        private int getIntegerValue() {
             return Integer.valueOf(value);
         }
 
     }
 
-    private static class Operator extends Token{
+    private static class Operator extends Token {
 
         private static final String SIGN_PLUS = "+";
         private static final String SIGN_MINUS = "-";
@@ -141,11 +124,15 @@ public class ExpressionAlgorithmus {
         private static final String SIGN_DIV = "/";
 
 
-        public Operator(String value) {
+        private Operator(String value) {
             super(value);
+
+            if (!(value.equals(SIGN_PLUS) || value.equals(SIGN_MINUS) || value.equals(SIGN_MULT) || value.equals(SIGN_DIV))) {
+                throw new IllegalArgumentException("incorrect operator");
+            }
         }
 
-        public int calculate(Operand operand1, Operand operand2){
+        private int calculate(Operand operand1, Operand operand2) {
             int result = 0;
 
             if (this.value.equals(SIGN_PLUS)) {
@@ -159,8 +146,6 @@ public class ExpressionAlgorithmus {
 
             } else if (this.value.equals(SIGN_DIV)) {
                 result = operand1.getIntegerValue() / operand2.getIntegerValue();
-            } else {
-                throw new IllegalArgumentException("incorrect string");
             }
 
             return result;
