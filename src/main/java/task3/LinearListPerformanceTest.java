@@ -13,15 +13,15 @@ public class LinearListPerformanceTest {
 
     private static final int RUNS = 10;
 
-    private static final int ARRAY_ELEMENTS_INSERT  = 20000;
-    private static final int ARRAY_ELEMENTS_DELETE  = 20000;
-    private static final int ELEMENT_DELETE_SIZE    = 1000;
+    private static final int ARRAY_ELEMENTS_INSERT = 20000;
+    private static final int ARRAY_ELEMENTS_DELETE = 20000;
+    private static final int ELEMENT_DELETE_SIZE = 1000;
 
-    private static final int RANDOM_BOUND           = 999999999;
+    private static final int RANDOM_BOUND = 999999999;
 
-    private static final String[] QUALIFIER         = new String[]{"Start", "Random", "End"};
-    private static final int[][] POSITIONS_INSERT   = new int[][]{getStartPositions(), getRandomPositions(false), getEndPositions(false)};
-    private static final int[][] POSITIONS_DELETE   = new int[][]{getStartPositions(), getRandomPositions(true), getEndPositions(true)};
+    private static final String[] QUALIFIER = new String[]{"Start", "Random", "End"};
+    private static final int[][] POSITIONS_INSERT = new int[][]{getStartPositions(), getRandomPositions(false), getEndPositions(false)};
+    private static final int[][] POSITIONS_DELETE = new int[][]{getStartPositions(), getRandomPositions(true), getEndPositions(true)};
 
     private long[] resultsInsert;
     private long[] resultsDelete;
@@ -32,31 +32,35 @@ public class LinearListPerformanceTest {
         this.insertSeries(QUALIFIER, POSITIONS_INSERT, lists);
 
         this.deleteSeries(QUALIFIER, POSITIONS_DELETE, lists);
-        
-        this.printComparisonResult();
 
     }
 
 
-    private void insertSeries(String[] qualifier, int[][] posInsert, ILinearList<Integer>... lists){
+    private void insertSeries(String[] qualifier, int[][] posInsert, ILinearList<Integer>... lists) {
 
-        if(QUALIFIER.length != POSITIONS_INSERT.length) throw new IllegalArgumentException("must be the same size");
+        if (QUALIFIER.length != POSITIONS_INSERT.length) throw new IllegalArgumentException("must be the same size");
 
-        resultsInsert = new long[posInsert.length*2];
+        resultsInsert = new long[lists.length * 3];
 
-        System.out.println("*-------------------- insert series -----------------------*: ");
+        System.out.println("*-------------------- insert series -------------------------------- average - compare --------*: ");
 
-        for(int i = 0; i < lists.length; i++){
+        for (int i = 0; i < lists.length; i++) {
 
             System.out.println(lists[i].getClass().getSimpleName() + ":");
 
-            for(int j = 0; j < posInsert.length; j++){
-                System.out.print(qualifier[j] + ":\t");
-                resultsInsert[j] = this.insertTest(posInsert[j], lists[i]);
-                System.out.println("\t av.: " + resultsInsert[j]);
+            for (int j = 0; j < posInsert.length; j++) {
+                System.out.printf("%-10s: ", qualifier[j]);
+                resultsInsert[i*3+j] = this.insertTest(posInsert[j], lists[i]);
+
+                if(i == 0) {
+                    System.out.printf("%5s|%8d|%8s|\n", "", resultsInsert[i*3+j], "");
+                } else {
+                    System.out.printf("%5s|%8d|%+8d|\n", "", resultsInsert[i*3+j], (resultsInsert[i*3+j]-resultsInsert[j]));
+
+                }
             }
 
-            System.out.println("*----------------------------------------------------------*");
+            System.out.println("*-----------------------------------------------------------------------------------------------*");
 
         }
 
@@ -64,28 +68,33 @@ public class LinearListPerformanceTest {
 
     }
 
-    private void deleteSeries(String[] qualifier, int[][] posDelete, ILinearList<Integer>... lists){
+    private void deleteSeries(String[] qualifier, int[][] posDelete, ILinearList<Integer>... lists) {
 
-        if(QUALIFIER.length != POSITIONS_DELETE.length) throw new IllegalArgumentException("must be the same size");
+        if (QUALIFIER.length != POSITIONS_DELETE.length) throw new IllegalArgumentException("must be the same size");
 
-        resultsDelete = new long[posDelete.length*2];
+        resultsDelete = new long[posDelete.length * 2];
 
-        System.out.println("*-------------------- delete series -----------------------*: ");
+        System.out.println("*-------------------- delete series -------------------------------- average - compare --------*: \"");
 
-        for(int i = 0; i < lists.length; i++){
+        for (int i = 0; i < lists.length; i++) {
             System.out.println(lists[i].getClass().getSimpleName() + ":");
 
 
-            for(int j = 0; j < posDelete.length; j++){
+            for (int j = 0; j < posDelete.length; j++) {
 
-                System.out.print(qualifier[j] + ":\t");
+                System.out.printf("%-10s: ",qualifier[j]);
 
-                resultsDelete[j] = this.deleteTest(posDelete[j], lists[i]);
+                resultsDelete[i*3+j] = this.deleteTest(posDelete[j], lists[i]);
 
-                System.out.println("\t av.: " + resultsDelete[j]);
+                if(i == 0) {
+                    System.out.printf("%5s|%8d|%8s|\n", "", resultsDelete[i*3+j], "");
+                } else {
+                    System.out.printf("%5s|%8d|%+8d|\n", "", resultsDelete[i*3+j], (resultsDelete[i*3+j]-resultsDelete[j]));
+
+                }
             }
 
-            System.out.println("*----------------------------------------------------------*");
+            System.out.println("*-----------------------------------------------------------------------------------------------*");
 
         }
 
@@ -108,7 +117,7 @@ public class LinearListPerformanceTest {
 
             long end = System.currentTimeMillis();
 
-            System.out.print((end - start) + "\t");
+            System.out.printf("%5s", (end - start));
 
             results[index] = end - start;
 
@@ -150,7 +159,7 @@ public class LinearListPerformanceTest {
 
             long end = System.currentTimeMillis();
 
-            System.out.print((end - start) + "\t");
+            System.out.printf("%5s", (end - start));
 
             results[index] = end - start;
 
@@ -167,12 +176,6 @@ public class LinearListPerformanceTest {
         long median = temp / RUNS;
 
         return median;
-
-    }
-
-    private void printComparisonResult() {
-
-        // TODO - Listen miteinander Vergleichen
 
     }
 
@@ -234,6 +237,8 @@ public class LinearListPerformanceTest {
         LinearListPerformanceTest pTest = new LinearListPerformanceTest();
 
         pTest.comparison(new ArrayBasedList<Integer>(), new DoubleLinkedList<Integer>());
+
+        pTest.comparison(new DoubleLinkedList<Integer>(), new ArrayBasedList<Integer>());
     }
 
 
