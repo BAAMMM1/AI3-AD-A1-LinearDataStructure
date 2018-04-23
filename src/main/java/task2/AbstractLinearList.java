@@ -49,7 +49,7 @@ public abstract class AbstractLinearList<T> implements ILinearList<T> {
         // Size der toAddList nicht dynamisch nachfragen, da l1.concat(L1) sonst unendlich laufen würde.
         int toAddSize = toAddList.size();
 
-        for (int i = 0; i < toAddList.size(); i++) {
+        for (int i = 0; i < toAddSize; i++) {
             this.insert(this.size, toAddList.retrieve(i));
         }
 
