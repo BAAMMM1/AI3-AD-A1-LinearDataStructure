@@ -2,10 +2,6 @@ package task2;
 
 import task1.ILinearList;
 
-import java.util.AbstractList;
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * @author Chris on 12.04.2018
  */
@@ -49,6 +45,9 @@ public abstract class AbstractLinearList<T> implements ILinearList<T> {
     public void concat(ILinearList<T> toAddList) throws IllegalArgumentException {
 
         if (toAddList == null) throw new IllegalArgumentException();
+
+        // Size der toAddList nicht dynamisch nachfragen, da l1.concat(L1) sonst unendlich laufen würde.
+        int toAddSize = toAddList.size();
 
         for (int i = 0; i < toAddList.size(); i++) {
             this.insert(this.size, toAddList.retrieve(i));
