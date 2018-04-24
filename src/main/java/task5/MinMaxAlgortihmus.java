@@ -9,16 +9,45 @@ import java.util.Arrays;
  */
 public class MinMaxAlgortihmus {
 
+    /**
+     * Ermitteltes Minimum
+     */
     private int min;
+
+    /**
+     * Ermitteltes Maximum
+     */
     private int max;
+
+    /**
+     * Benötigte Vergleiche
+     */
     private int comparisons;
 
+    /**
+     * Array auf das der Algortihmus angewandt wurde
+     */
+    private int[] array;
+
+    /**
+     * Erstellt ein neue MinMaxAlgorithmus-Objekt und wendet des Algorithmus auf das übergebene Array an.
+     *
+     * @param array Array auf dem der Algorithmus angewendet wird
+     */
     public MinMaxAlgortihmus(int[] array) {
 
+        if (array == null) throw new IllegalArgumentException("array must not be null");
+        this.array = array;
         this.compute(array);
 
     }
 
+    /**
+     * Berechnet das Minimum und Maximum.<br>
+     * Diese Methode enthält die Handlungsvorschrift des Algorithmus.
+     *
+     * @param array Feld für das das Minimum und das Maximum berechnet wird
+     */
     private void compute(int[] array) {
 
         this.min = array[0];
@@ -42,24 +71,49 @@ public class MinMaxAlgortihmus {
 
         }
 
-        System.out.println("*---------------------*");
-        System.out.println(Arrays.toString(array));
-        System.out.println("Vergleiche: " + comparisons);
-        System.out.println("max: " + this.max);
-        System.out.println("min: " + this.min);
+        System.out.println("*---------------------*"
+                + "\n" + Arrays.toString(array)
+                + "\nVergleiche: " + comparisons
+                + "\nmax: " + this.max
+                + "\nmin: " + this.min
+        );
+
 
     }
 
+    /**
+     * Gibt das ermittelte Minimum des ganzahligen Feldes zurück.
+     *
+     * @return kleinster Wert des Arrays
+     */
     public int getMin() {
         return min;
     }
 
+    /**
+     * Gibr das ermittelte Maximum des ganzahligen Feldes zurück.
+     *
+     * @return größter Wert des Arrays
+     */
     public int getMax() {
         return max;
     }
 
+    /**
+     * Gibt die Anzahl an benötigten Vergleiche des Algortihmus an.
+     *
+     * @return Vergleichsanzahl
+     */
     public int getComparisons() {
         return comparisons;
     }
 
+    /**
+     * Gibt das Array für die das Minimum und das Maximum ermittelt wurde zurück.
+     *
+     * @return Feld auf das der Algortihmus angewendet wurde
+     */
+    public int[] getArray() {
+        return array;
+    }
 }
