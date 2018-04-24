@@ -106,6 +106,5 @@ public interface ILinearList<T> {
      * @return eine Subliste aus 2er Positionen einer Liste
      */
     ILinearList<T> extract(int fromPosition, int toPosition);
-
-
+    
 }
