@@ -13,8 +13,9 @@ public class LinearListPerformanceTest {
 
     private static final int RUNS = 10;
 
-    private static final int ARRAY_ELEMENTS_INSERT = 20000;
-    private static final int ARRAY_ELEMENTS_DELETE = 20000;
+    private static final int ARRAY_ELEMENTS_TO_INSERT = 20000;
+
+    private static final int INIT_ARRAY_SIZE_FOR_DELETE = 20000;
     private static final int ELEMENT_DELETE_SIZE = 1000;
 
     private static final int RANDOM_BOUND = 999999999;
@@ -22,9 +23,6 @@ public class LinearListPerformanceTest {
     private static final String[] QUALIFIER = new String[]{"Start", "Random", "End"};
     private static final int[][] POSITIONS_INSERT = new int[][]{getStartPositions(), getRandomPositions(false), getEndPositions(false)};
     private static final int[][] POSITIONS_DELETE = new int[][]{getStartPositions(), getRandomPositions(true), getEndPositions(true)};
-
-    private long[] resultsInsert;
-    private long[] resultsDelete;
 
 
     public void comparison(ILinearList<Integer>... lists) {
@@ -40,7 +38,7 @@ public class LinearListPerformanceTest {
 
         if (QUALIFIER.length != POSITIONS_INSERT.length) throw new IllegalArgumentException("must be the same size");
 
-        resultsInsert = new long[lists.length * 3];
+        long[] resultsAverageInsert = new long[lists.length * 3];
 
         System.out.println("*-------------------- insert series -------------------------------- average - compare --------*: ");
 
@@ -50,12 +48,12 @@ public class LinearListPerformanceTest {
 
             for (int j = 0; j < posInsert.length; j++) {
                 System.out.printf("%-10s: ", qualifier[j]);
-                resultsInsert[i*3+j] = this.insertTest(posInsert[j], lists[i]);
+                resultsAverageInsert[i*3+j] = this.insertTest(posInsert[j], lists[i]);
 
                 if(i == 0) {
-                    System.out.printf("%5s|%8d|%8s|\n", "", resultsInsert[i*3+j], "");
+                    System.out.printf("%5s|%8d|%8s|\n", "", resultsAverageInsert[i*3+j], "");
                 } else {
-                    System.out.printf("%5s|%8d|%+8d|\n", "", resultsInsert[i*3+j], (resultsInsert[i*3+j]-resultsInsert[j]));
+                    System.out.printf("%5s|%8d|%+8d|\n", "", resultsAverageInsert[i*3+j], (resultsAverageInsert[i*3+j]-resultsAverageInsert[j]));
 
                 }
             }
@@ -72,7 +70,7 @@ public class LinearListPerformanceTest {
 
         if (QUALIFIER.length != POSITIONS_DELETE.length) throw new IllegalArgumentException("must be the same size");
 
-        resultsDelete = new long[posDelete.length * 2];
+        long[] resultsAverageDelete = new long[posDelete.length * 2];
 
         System.out.println("*-------------------- delete series -------------------------------- average - compare --------*: \"");
 
@@ -84,12 +82,12 @@ public class LinearListPerformanceTest {
 
                 System.out.printf("%-10s: ",qualifier[j]);
 
-                resultsDelete[i*3+j] = this.deleteTest(posDelete[j], lists[i]);
+                resultsAverageDelete[i*3+j] = this.deleteTest(posDelete[j], lists[i]);
 
                 if(i == 0) {
-                    System.out.printf("%5s|%8d|%8s|\n", "", resultsDelete[i*3+j], "");
+                    System.out.printf("%5s|%8d|%8s|\n", "", resultsAverageDelete[i*3+j], "");
                 } else {
-                    System.out.printf("%5s|%8d|%+8d|\n", "", resultsDelete[i*3+j], (resultsDelete[i*3+j]-resultsDelete[j]));
+                    System.out.printf("%5s|%8d|%+8d|\n", "", resultsAverageDelete[i*3+j], (resultsAverageDelete[i*3+j]-resultsAverageDelete[j]));
 
                 }
             }
@@ -111,7 +109,7 @@ public class LinearListPerformanceTest {
 
             long start = System.currentTimeMillis();
 
-            for (int i = 0; i < ARRAY_ELEMENTS_INSERT; i++) {
+            for (int i = 0; i < ARRAY_ELEMENTS_TO_INSERT; i++) {
                 list.insert(positions[i], this.getRandomInteger());
             }
 
@@ -147,7 +145,7 @@ public class LinearListPerformanceTest {
             list.clean();
 
             // 1. Liste befüllen von hinten (Geht am schnellsten bei beiden)
-            for (int i = 0; i < ARRAY_ELEMENTS_DELETE; i++) {
+            for (int i = 0; i < INIT_ARRAY_SIZE_FOR_DELETE; i++) {
                 list.insert(i, this.getRandomInteger());
             }
 
@@ -181,7 +179,7 @@ public class LinearListPerformanceTest {
 
 
     private static int[] getStartPositions() {
-        return new int[ARRAY_ELEMENTS_INSERT];
+        return new int[ARRAY_ELEMENTS_TO_INSERT];
     }
 
     /**
@@ -192,12 +190,12 @@ public class LinearListPerformanceTest {
      * @return
      */
     private static int[] getRandomPositions(boolean reverse) {
-        int[] result = new int[ARRAY_ELEMENTS_INSERT];
+        int[] result = new int[ARRAY_ELEMENTS_TO_INSERT];
 
-        for (int i = 0; i < ARRAY_ELEMENTS_INSERT; i++) {
+        for (int i = 0; i < ARRAY_ELEMENTS_TO_INSERT; i++) {
 
             if (reverse) {
-                result[i] = new Random().nextInt((ARRAY_ELEMENTS_INSERT) - i);
+                result[i] = new Random().nextInt((ARRAY_ELEMENTS_TO_INSERT) - i);
             } else {
                 result[i] = new Random().nextInt(i + 1);
             }
@@ -206,19 +204,19 @@ public class LinearListPerformanceTest {
     }
 
     /**
-     * reverse false -> 0 1 2 3 4 5
-     * reverse true -> 5 4 3 2 1 0
+     * Insert: reverse false -> 0 1 2 3 4 5
+     * Delete: reverse true -> 5 4 3 2 1 0
      *
      * @param reverse
      * @return
      */
     private static int[] getEndPositions(boolean reverse) {
 
-        int[] result = new int[ARRAY_ELEMENTS_INSERT];
+        int[] result = new int[ARRAY_ELEMENTS_TO_INSERT];
 
-        for (int i = 0; i < ARRAY_ELEMENTS_INSERT; i++) {
+        for (int i = 0; i < ARRAY_ELEMENTS_TO_INSERT; i++) {
             if (reverse) {
-                result[i] = (ARRAY_ELEMENTS_INSERT - 1) - i;
+                result[i] = (ARRAY_ELEMENTS_TO_INSERT - 1) - i;
             } else {
                 result[i] = i;
             }
@@ -238,7 +236,7 @@ public class LinearListPerformanceTest {
 
         pTest.comparison(new ArrayBasedList<Integer>(), new DoubleLinkedList<Integer>());
 
-        pTest.comparison(new DoubleLinkedList<Integer>(), new ArrayBasedList<Integer>());
+        //pTest.comparison(new DoubleLinkedList<Integer>(), new ArrayBasedList<Integer>());
     }
 
 

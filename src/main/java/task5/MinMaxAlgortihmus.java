@@ -37,6 +37,7 @@ public class MinMaxAlgortihmus {
     public MinMaxAlgortihmus(int[] array) {
 
         if (array == null) throw new IllegalArgumentException("array must not be null");
+
         this.array = array;
         this.compute(array);
 
