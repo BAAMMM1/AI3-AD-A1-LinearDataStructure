@@ -44,8 +44,8 @@ public class DoubleLinkedListTest {
     @Before
     public void setup(){
         // 2 Integer Zufallszahlen
-        randomIntNumber = new Random().nextInt(MAX_RANDOMNUMBER);
-        otherRandomIntNumber = new Random().nextInt(MAX_RANDOMNUMBER);
+        randomIntNumber = new Random().nextInt(MAX_RANDOMNUMBER)+1;
+        otherRandomIntNumber = new Random().nextInt(MAX_RANDOMNUMBER)+1;
 
 
         // Leere Liste
