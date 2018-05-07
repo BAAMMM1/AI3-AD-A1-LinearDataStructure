@@ -5,6 +5,10 @@ package task2;
  */
 public class Main {
     public static void main(String[] args) {
-        ArrayBasedList<Object> arrayBasedListTest = new ArrayBasedList<Object>();
-    }
+
+        System.out.println(new String("*5").substring(0,1));
+        System.out.println(new String("*5").substring(0,2));
+        System.out.println(Integer.valueOf("+5"));
+
+}
 }

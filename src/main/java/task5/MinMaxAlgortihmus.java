@@ -32,11 +32,12 @@ public class MinMaxAlgortihmus {
     /**
      * Erstellt ein neue MinMaxAlgorithmus-Objekt und wendet des Algorithmus auf das übergebene Array an.
      *
-     * @param array Array auf dem der Algorithmus angewendet wird
+     * @param array nicht null und array length > 0
      */
     public MinMaxAlgortihmus(int[] array) {
 
         if (array == null) throw new IllegalArgumentException("array must not be null");
+        if(array.length == 0) throw new IllegalArgumentException();
 
         this.array = array;
         this.compute(array);
@@ -46,10 +47,16 @@ public class MinMaxAlgortihmus {
     /**
      * Berechnet das Minimum und Maximum.<br>
      * Diese Methode enthält die Handlungsvorschrift des Algorithmus.
+     * Operation compute:   MinMaxAlgortihmus x ARRAY
+     * pre:                 Array length > 0
+     * post:
      *
-     * @param array Feld für das das Minimum und das Maximum berechnet wird
+     * @param array nicht null und length > 0
      */
     private void compute(int[] array) {
+
+        if(array == null) throw new IllegalArgumentException();
+        if(array.length == 0) throw new IllegalArgumentException();
 
         this.min = array[0];
         this.max = array[0];

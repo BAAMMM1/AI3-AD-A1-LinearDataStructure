@@ -19,11 +19,20 @@ public class ExpressionAlgorithmus {
     }
 
     /**
-     * Operation compute: ExpressionAlgorithmus x String -> INT
-     *
-     * @param expression
-     * @return
-     * @throws IllegalArgumentException
+     * Führt für den übergebenen Ausruck die stackbasierte Auswertung aus
+     * Operation compute:   ExpressionAlgorithmus x String -> INT
+     * pre:                 Es sind folgende Terme erlaubt:
+     *                      - positive ganze Zahlen
+     *                      - Klammern ()
+     *                      - Grundoperationen +−∗/
+     *                      - Ausdrücke müssen vollständig geklammert sein
+     *                      - Operationen haben genau zwei Operanden
+     *                      - Operanden sind Zahlen oder Klammer-Ausdrücke
+     *                      - keine Punkt- vor Strichrechnung
+     * post:
+     * @param expression Überprüfung auf zugelassenen, reguläreren Ausdruck
+     * @return int
+     * @throws IllegalArgumentException falls Ausdruck nicht zulässig
      */
     public int compute(String expression) throws IllegalArgumentException {
 
@@ -70,8 +79,11 @@ public class ExpressionAlgorithmus {
 
             try {
 
-                Integer.valueOf(expression.substring(0, i));
-                Integer.valueOf(expression.substring(0, i + 1));
+                // Klammer- und Operatorprüfung
+                Integer.valueOf(expression.substring(0, i)); // sonst auch das möglich +2, da + nicht als Operator erkannt wird
+
+                // Operanden bis zu ")" und Operator ermitteln; +1 bedeutet hierbei auch, das nicht 2 Operatoren aufeinander folgen können
+                Integer.valueOf(expression.substring(0, i + 1)); // Für mehrstellige Zahlen, also 10, 100, 1000
 
             } catch (Exception e) {
 
@@ -79,6 +91,9 @@ public class ExpressionAlgorithmus {
 
                 expression = expression.substring(i);
 
+                // Nach gefundenem Symbol (1 bis x Zeichen lang, wobei x Anzahl an Stellen bei einer Zahl entspricht),
+                // muss wieder mit einer Länge von 1 gesucht werden (daher hier auf 0 und in for-Schleife wieder ++)
+                // expression wird durch substring wieder um
                 i = 0;
 
             }
