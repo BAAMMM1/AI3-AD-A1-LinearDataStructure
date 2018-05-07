@@ -39,7 +39,7 @@ public abstract class AbstractLinearList<T> implements ILinearList<T> {
      *                      falls L1={} dann bewirkt L1.concat(L2) = L2
      *
      * @param toAddList Liste mit n Elementen oder leere Liste
-     * @throws IllegalArgumentException falls otherList null
+     * @throws IllegalArgumentException falls toAddList null
      */
     @Override
     public void concat(ILinearList<T> toAddList) throws IllegalArgumentException {
@@ -58,7 +58,7 @@ public abstract class AbstractLinearList<T> implements ILinearList<T> {
     /**
      * Extrahiert eine Subliste innerhalb 2er Positionen einer Liste
      *
-     * Operation extract:   LIST x INT x INT -> LIST
+     * Operation extract:   LIST x POS x POS -> LIST
      * Pre:                 Sei fromPosition element {Position-0, ...,Position-n} erlaubte position
      *                      Sei toPosition element {Position-0, ...,Position-n} erlaubte position,
      *                      fromPosition <= toPosition
@@ -70,6 +70,7 @@ public abstract class AbstractLinearList<T> implements ILinearList<T> {
      * @param toPosition fromPosition <= toPosition < size <p>
      * 0 <= fromPosition <= toPosition < size
      * @return eine Subliste aus 2er Positionen einer Liste
+     * @throws IllegalArgumentException falls precondition nicht erfüllt
      */
     @Override
     public ILinearList<T> extract(int fromPosition, int toPosition) {
@@ -77,7 +78,7 @@ public abstract class AbstractLinearList<T> implements ILinearList<T> {
         if (!(0 <= fromPosition && fromPosition < size)) throw new IllegalArgumentException();
         if (!(fromPosition <= toPosition && toPosition < this.size)) throw new IllegalArgumentException();
 
-        ILinearList<T> result = null;
+        AbstractLinearList result = null;
 
         try {
             result = this.getClass().newInstance();

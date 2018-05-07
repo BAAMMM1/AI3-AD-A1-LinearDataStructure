@@ -1,7 +1,5 @@
 package task1;
 
-import java.util.List;
-
 /**
  * Dieses Interface stellt die Schnittstelle des abstarcten Datentyps lineare Liste da.
  *
@@ -24,7 +22,7 @@ public interface ILinearList<T> {
      * Fügt Element in einer bestimmten Position der Liste hinzu.<p>
      *
      * Operation insert:    LIST x POS x ELEM -> LIST
-     * Pre:                 position element {position-0, ...,position-n} erlaubte Position
+     * Pre:                 position {position-0, ...,position-n} erlaubte Position
      * Post:                Sei L = (a0,...,an) eine lineare Liste.
      *                      Sei ai das Element an Position pi. Dann bewirkt
      *                      L.insert(position-i,x) = (a0,....,ai-1,x,ai,ai+1,...an)
@@ -39,7 +37,7 @@ public interface ILinearList<T> {
      * Löscht ein Element aus einer Liste an einer bestimmten Position.<p>
      *
      * Operation delete:    LIST x POS -> LIST
-     * pre:                 position element {position-0, ..., position-n} erlaubte Position
+     * pre:                 position {position-0, ..., position-n} erlaubte Position
      * post:                Sei L = (a0,...,an) eine lineare Liste.
      *                      Sei ai das Element an Position pi. Dann bewirkt
      *                      L.delete(position-i) = (a0,....,ai-1,ai+1,...an)
@@ -53,7 +51,7 @@ public interface ILinearList<T> {
      * Gibt ein Element einer Liste von einer Position zurück.<p>
      *
      * Operation retrieve:  LIST x POS -> ELEM
-     * pre:                 position element {position-0, ..., position-n} erlaubte Position
+     * pre:                 position {position-0, ..., position-n} erlaubte Position
      * post:                Sei L = (a0,...,an) eine lineare Liste. Dann bewirkt
      *                      L.retrieve(position-i) = ai
      *
@@ -92,7 +90,7 @@ public interface ILinearList<T> {
     /**
      * Extrahiert eine Subliste innerhalb 2er Positionen einer Liste
      *
-     * Operation extract:   LIST x INT x INT -> LIST
+     * Operation extract:   LIST x POS x POS -> LIST
      * Pre:                 Sei fromPosition element {Position-0, ...,Position-n} erlaubte position
      *                      Sei toPosition element {Position-0, ...,Position-n} erlaubte position,
      *                      fromPosition <= toPosition
@@ -106,6 +104,5 @@ public interface ILinearList<T> {
      * @return eine Subliste aus 2er Positionen einer Liste
      */
     ILinearList<T> extract(int fromPosition, int toPosition);
-
-
+    
 }

@@ -1,10 +1,7 @@
 package task2;
 
-import task1.ILinearList;
-
-import java.lang.reflect.Array;
 import java.util.Arrays;
-import java.util.List;
+
 
 /**
  * Diese Klasse stellt eine Array basierte lineare Liste da.
@@ -25,7 +22,7 @@ public class ArrayBasedList<T> extends AbstractLinearList<T> {
     private static final double DECRASE_FACTOR = 0.5;
 
     /**
-     * Bestimmt ab welcher prozentualen Größe des Inhalt zur Kapazität des Arrays das Array verkleinert wird.
+     * Bestimmt ab welcher prozentualen Faktor des Inhalt zur Kapazität des Arrays das Array verkleinert wird.
      */
     private static final double DECREASE_PERCENT_SIZE = 0.25;
 
@@ -37,7 +34,7 @@ public class ArrayBasedList<T> extends AbstractLinearList<T> {
     /**
      * Array das die Elemente speichert.
      */
-    private T elements[];
+    private T[] elements;
 
     /**
      * Kapazität des Arrays.
@@ -54,13 +51,12 @@ public class ArrayBasedList<T> extends AbstractLinearList<T> {
         this.elements = (T[]) new Object[maxSize];
     }
 
-    // TODO - List Konstruktor
 
     /**
      * Fügt Element in einer bestimmten Position der Liste hinzu.<p>
      *
      * Operation insert:    LIST x POS x ELEM -> LIST
-     * Pre:                 position element {position-0, ...,position-n} erlaubte Position
+     * Pre:                 position {position-0, ...,position-n} erlaubte Position
      * Post:                Sei L = (a0,...,an) eine lineare Liste.
      *                      Sei ai das Element an Position pi. Dann bewirkt
      *                      L.insert(position-i,x) = (a0,....,ai-1,x,ai,ai+1,...an)
@@ -86,9 +82,11 @@ public class ArrayBasedList<T> extends AbstractLinearList<T> {
         this.elements[position] = element;
         this.size++;
 
-        // 4. Größe anpassen
+        // 4. Größe anpassen, da nie eine Liste erstellt werden kann, die mit MaxSize Elementen gefüllt ist,
+        // kommen wir nie in den Fall, das wir an eine Liste mit MaxSize gefüllten Elementen versuchen etwas anzuhängen!
+        // sobald eine Methode nur 1 Element hinzufügt und dadruch an MaxSize kommt, wird diese sofort erhöht.
         if (this.size == maxSize) {
-            this.adjustSize(INCREASE_FACTOR);
+            this.adjustArraySize(INCREASE_FACTOR);
         }
     }
 
@@ -99,7 +97,7 @@ public class ArrayBasedList<T> extends AbstractLinearList<T> {
      * Löscht ein Element aus einer Liste an einer bestimmten Position.<p>
      *
      * Operation delete:    LIST x POS -> LIST
-     * pre:                 position element {position-0, ..., position-n} erlaubte Position
+     * pre:                 position {position-0, ..., position-n} erlaubte Position
      * post:                Sei L = (a0,...,an) eine lineare Liste.
      *                      Sei ai das Element an Position pi. Dann bewirkt
      *                      L.delete(position-i) = (a0,....,ai-1,ai+1,...an)
@@ -110,10 +108,11 @@ public class ArrayBasedList<T> extends AbstractLinearList<T> {
     @Override
     public void delete(int position) throws IllegalArgumentException {
 
-        // 1. precondition check 0 = 0 ; 5 = 5 da P0....
+        // 1. precondition check
         if (!(0 <= position && position < size)) throw new IllegalArgumentException();
 
         // 2. Element löschen aus dem Array
+        // von Position alles ein nach links verschieben
         for (int i = position; i < this.size; i++) {
             this.elements[i] = this.elements[i + 1];
         }
@@ -123,7 +122,7 @@ public class ArrayBasedList<T> extends AbstractLinearList<T> {
 
         // 4. Array Größe anpassen
         if (this.size == (int) (maxSize * DECREASE_PERCENT_SIZE)) {
-            this.adjustSize(DECRASE_FACTOR);
+            this.adjustArraySize(DECRASE_FACTOR);
         }
     }
 
@@ -131,7 +130,7 @@ public class ArrayBasedList<T> extends AbstractLinearList<T> {
      * Gibt ein Element einer Liste von einer Position zurück.<p>
      *
      * Operation retrieve:  LIST x POS -> ELEM
-     * pre:                 position element {position-0, ..., position-n} erlaubte Position
+     * pre:                 position {position-0, ..., position-n} erlaubte Position
      * post:                Sei L = (a0,...,an) eine lineare Liste. Dann bewirkt
      *                      L.retrieve(position-i) = ai
      *
@@ -170,11 +169,17 @@ public class ArrayBasedList<T> extends AbstractLinearList<T> {
     /**
      * Passt die Länge des Arrays um den übergebenen Faktor an.
      *
+     * Frage hier: Ist es cleverer mehr Speicher vorzuhalten
+     * oder öfter zu kopieren (Leistung vs Kapiztät)
+     * genauer gesagt, Faktoranpassung und ggf mehr Stellen leer haben oder
+     * Array um fixen Wert erhöhen, dafür ggf mehrfache Anppasung nötig (Stichwort SSD)
+     *
+     * Wir haben uns hier für eine Faktoranpassung entschieden
+     *
      * @param factor 0 <= factor
      * @exception IllegalArgumentException falls nicht 0 <= factor
      */
-    private void adjustSize(double factor) {
-
+    private void adjustArraySize(double factor) {
         if(!(0 <= factor)) throw new IllegalArgumentException();
 
         this.maxSize = (int) (this.maxSize * factor);
@@ -214,26 +219,4 @@ public class ArrayBasedList<T> extends AbstractLinearList<T> {
                 ", maxSize=" + maxSize +
                 '}';
     }
-//    @Override
-//    public <E> void insertType(int position, E element) throws IllegalArgumentException {
-//
-//        // 1. precondition check
-//        if (!(0 <= position && position <= size)) throw new IllegalArgumentException();
-//        if (!(element == (T) element)) throw new IllegalArgumentException();
-//        if (element == null) throw new IllegalArgumentException();
-//
-//        // 2. Alle Elemente von hinten eine position nach rechts verschieben
-//        for (int index = size - 1; index >= position; index--) {
-//            this.elements[index + 1] = this.elements[index];
-//        }
-//
-//        // 3. Element einfügen
-//        this.elements[position] = (T) element;
-//        this.size++;
-//
-//        // 4. Größe anpassen
-//        if (this.size == maxSize) {
-//            this.adjustSize(INCREASE_FACTOR);
-//        }
-//         }
 }
