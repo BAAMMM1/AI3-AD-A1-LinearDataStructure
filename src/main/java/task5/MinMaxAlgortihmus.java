@@ -61,22 +61,47 @@ public class MinMaxAlgortihmus {
         this.min = array[0];
         this.max = array[0];
 
+        int a;
+        int b;
+
         comparisons = 0;
 
         // TODO - 3/2n -1 bei jeweils 2 Elemente anschauen
 
-        for (int i = 1; i < array.length; i++) {
-
-            comparisons++;
-            if (this.max < array[i]) {
-                this.max = array[i];
+        for (int i=1; i< array.length; i=i+2)
+        {
+            a = array[i];
+            try {
+                b = array[i + 1];
+            }
+            catch(Exception e){
+                comparisons = comparisons +1;
+                if (a < this.min)min = a;
+                comparisons = comparisons +1;
+                if (a > this.max)max = a;
                 continue;
             }
-
-            comparisons++;
-            if (this.min > array[i]) {
-                this.min = array[i];
+            comparisons = comparisons + 1;
+            if ((a < b)) {
+                comparisons = comparisons+1;
+                if ((a < this.min)) {
+                    this.min = a;
+                }
+                comparisons = comparisons+1;
+                if (b>this.max){
+                    this.max = b;
+                }
                 continue;
+
+            } else {
+                comparisons = comparisons+1;
+                if (((b < this.min))) {
+                    this.min = b;
+                }
+                comparisons = comparisons+1;
+                if (a>this.max){
+                    this.max = a;
+                }
             }
 
         }
