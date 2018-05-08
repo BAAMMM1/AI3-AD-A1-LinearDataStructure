@@ -63,6 +63,8 @@ public class MinMaxAlgortihmus {
 
         comparisons = 0;
 
+        // TODO - 3/2n -1 bei jeweils 2 Elemente anschauen
+
         for (int i = 1; i < array.length; i++) {
 
             comparisons++;

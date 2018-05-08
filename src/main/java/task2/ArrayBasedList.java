@@ -185,7 +185,10 @@ public class ArrayBasedList<T> extends AbstractLinearList<T> {
         this.maxSize = (int) (this.maxSize * factor);
         T[] temp = (T[]) new Object[maxSize];
 
-        System.arraycopy(this.elements, 0, temp, 0, this.size);
+        for(int i= 0; i< this.elements.length; i++){
+            temp[i] = this.elements[i];
+        }
+
         this.elements = temp;
 
     }

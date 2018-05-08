@@ -101,6 +101,7 @@ public class ArrayBasedListTest {
                 randomIntNumber.intValue(),
                 iLinearListRandomForManipulateFilledWithInt.retrieve(0).intValue());
     }
+
     @Test
     public void insertOnRandomPositionARandomNumberOfRandomFilledList() {
 //        System.out.println("Liste vor Manipulation: "+iLinearListRandomForManipulateFilledWithInt.toString());
